@@ -166,38 +166,6 @@ public class SearchTableController implements Initializable {
     }
 
     public void retrieveSearchedItems(ActionEvent event) {
-        String ProdCode = enteredProdCode.getText();
-        connectQuery = String.format("SELECT * FROM `inventory_management`.`inward_item` where prod_code REGEXP '^%s'",ProdCode);
-        tableView.getItems().clear();
-
-        try {
-            DatabaseConnection connectNow = new DatabaseConnection();
-            Connection connectDB = connectNow.getConnection();
-
-            Statement statement = connectDB.createStatement();
-            ResultSet queryOutput = statement.executeQuery(connectQuery);
-
-            while(queryOutput.next()) {
-                observableList.add(new modelTable(
-                        queryOutput.getString("part_no"),
-                        queryOutput.getString("ref_part_no"),
-                        queryOutput.getString("add_on"),
-                        queryOutput.getInt("quantity"),
-                        queryOutput.getString("part_for"),
-                        queryOutput.getString("company"),
-                        queryOutput.getString("inventory_date"),
-                        queryOutput.getString("source_of_p"),
-                        queryOutput.getInt("landing_pv"),
-                        queryOutput.getInt("sell_v"),
-                        queryOutput.getString("stock_loc"),
-                        queryOutput.getString("tech_details"),
-                        queryOutput.getString("setof"),
-                        queryOutput.getString("prefix"),
-                        queryOutput.getString("comment")));
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
     }
 }
 

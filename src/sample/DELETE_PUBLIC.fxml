@@ -8,55 +8,64 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="650.0" minWidth="1290.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C4FCF0;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller" fx:id="myAnchorPane">
+<AnchorPane minHeight="650.0" minWidth="1290.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C4FCF0;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DeleteTableController">
     <children>
         <Button fx:id="back" layoutX="-9.0" layoutY="-3.0" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0" prefWidth="121.0" style="-fx-background-color: #C4FCF0;" text="&lt;- BACK" textAlignment="JUSTIFY" textFill="#005575">
             <font>
                 <Font name="System Bold" size="21.0" />
             </font>
         </Button>
-        <Label alignment="CENTER" layoutX="180.0" layoutY="18.0" prefHeight="35.0" prefWidth="301.0" text="ENTER PRODUCT CODE">
+        <Label alignment="CENTER" layoutX="210.0" layoutY="18.0" prefHeight="35.0" prefWidth="301.0" text="ENTER PRODUCT CODE">
             <font>
                 <Font name="System Bold" size="23.0" />
             </font>
         </Label>
-        <Label alignment="CENTER" layoutX="849.0" layoutY="19.0" prefHeight="34.0" prefWidth="257.0" text="SCAN BAR CODE">
+        <Label alignment="CENTER" layoutX="862.0" layoutY="18.0" prefHeight="34.0" prefWidth="257.0" text="SCAN BAR CODE">
             <font>
                 <Font name="System Bold" size="23.0" />
             </font>
         </Label>
-        <TextField layoutX="215.0" layoutY="60.0" prefHeight="25.0" prefWidth="233.0" />
-        <TextField layoutX="857.0" layoutY="60.0" prefHeight="25.0" prefWidth="241.0" />
-        <TableView layoutX="15.0" layoutY="177.0" prefHeight="409.0" prefWidth="1259.0">
+        <TextField fx:id="filterBox" layoutX="244.0" layoutY="60.0" prefHeight="25.0" prefWidth="233.0" />
+        <TextField layoutX="877.0" layoutY="60.0" prefHeight="25.0" prefWidth="241.0" />
+        <TableView fx:id="tableView" layoutX="16.0" layoutY="151.0" prefHeight="429.0" prefWidth="1259.0">
             <columns>
-                <TableColumn minWidth="0.0" prefWidth="153.33335876464844" text="PRODUCT CODE" />
-                <TableColumn minWidth="5.3333740234375" prefWidth="182.66665649414062" text="DATE OF MANUFACTURE" />
-                <TableColumn prefWidth="154.66665649414062" text="TYPE" />
-                <TableColumn prefWidth="190.66668701171875" text="COMPANY" />
-                <TableColumn minWidth="0.0" prefWidth="216.6666259765625" text="COUNT" />
-                <TableColumn minWidth="0.0" prefWidth="217.333251953125" text="LAST DATE" />
+                <TableColumn fx:id="col_partNo" minWidth="0.0" prefWidth="153.33335876464844" text="PART NUMBER" />
+                <TableColumn fx:id="col_refPartNo" minWidth="0.0" prefWidth="153.33335876464844" text="REFERENCE PART NUMBER" />
+                <TableColumn fx:id="col_addOn" minWidth="0.0" prefWidth="153.33335876464844" text="ADD ON" />
+                <TableColumn fx:id="col_quantity" minWidth="0.0" prefWidth="153.33335876464844" text="QUANTITY" />
+                <TableColumn fx:id="col_partFor" minWidth="0.0" prefWidth="153.33335876464844" text="PART FOR" />
+                <TableColumn fx:id="col_company" minWidth="0.0" prefWidth="153.33335876464844" text="COMPANY" />
+                <TableColumn fx:id="col_inventoryDate" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="INVENTORY DATE" />
+                <TableColumn fx:id="col_sourceOfPurchase" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="INVENTORY DATE" />
+                <TableColumn fx:id="col_landingPurchaseValue" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="LANDING PURCHASE VALUE" />
+                <TableColumn fx:id="col_sellingValue" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SELLING VALUE" />
+                <TableColumn fx:id="col_stockLocation" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="STOCK LOCATION" />
+                <TableColumn fx:id="col_techDetails" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="TECH DETAILS" />
+                <TableColumn fx:id="col_setOf" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SET OF" />
+                <TableColumn fx:id="col_prefix" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="PREFIX" />
+                <TableColumn fx:id="col_comment" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="COMMENT" />
             </columns>
         </TableView>
-        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="558.0" layoutY="113.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="ENTER" textAlignment="CENTER" textFill="WHITE">
+        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="577.0" layoutY="102.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#retrieveSearchedItems" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="ENTER" textAlignment="CENTER" textFill="WHITE">
             <font>
                 <Font name="Arial Black" size="17.0" />
             </font>
         </Button>
-      <TextField layoutX="570.0" layoutY="60.0" />
-      <Label alignment="CENTER" layoutX="494.0" layoutY="18.0" prefHeight="35.0" prefWidth="301.0" text="COUNT">
-         <font>
-            <Font name="System Bold" size="23.0" />
-         </font>
-      </Label>
-      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="603.0" layoutY="599.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="DELETE" textAlignment="CENTER" textFill="WHITE" fx:id="Delete" onAction="#DeleteLog">
+        <Button fx:id="HOME" layoutX="1192.0" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0" prefWidth="98.0" style="-fx-background-color: #C4FCF0;" text="HOME" textAlignment="JUSTIFY" textFill="#005575">
+            <font>
+                <Font name="System Bold" size="21.0" />
+            </font>
+        </Button>
+      <Button alignment="CENTER" contentDisplay="CENTER" layoutX="589.0" layoutY="601.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#DeleteLog" prefHeight="34.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="DELETE" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Arial Black" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="HOME" layoutX="1168.0" layoutY="-3.0" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0" prefWidth="121.0" style="-fx-background-color: #C4FCF0;" text="HOME" textAlignment="JUSTIFY" textFill="#005575">
+      <TextField fx:id="selectedQuantity" layoutX="596.0" layoutY="60.0" />
+      <Label alignment="CENTER" layoutX="520.0" layoutY="18.0" prefHeight="35.0" prefWidth="301.0" text="COUNT">
          <font>
-            <Font name="System Bold" size="21.0" />
+            <Font name="System Bold" size="23.0" />
          </font>
-      </Button>
+      </Label>
     </children>
 </AnchorPane>

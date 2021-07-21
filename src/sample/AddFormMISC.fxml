@@ -18,7 +18,7 @@
                 <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="900.0" minWidth="30.0" prefWidth="730.0" />
             </columnConstraints>
             <rowConstraints>
-            <RowConstraints maxHeight="125.8000244140625" minHeight="10.0" prefHeight="58.39999084472656" valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="125.8000244140625" minHeight="10.0" prefHeight="58.39999084472656" valignment="CENTER" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="125.8000244140625" minHeight="10.0" prefHeight="58.39999084472656" valignment="CENTER" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="125.8000244140625" minHeight="10.0" prefHeight="58.39999084472656" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="125.8000244140625" minHeight="10.0" prefHeight="58.39999084472656" vgrow="SOMETIMES" />
@@ -121,16 +121,16 @@
                         <TextField fx:id="SellValue" layoutX="415.0" layoutY="10.0" prefHeight="25.0" prefWidth="300.0" />
                     </children>
                 </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <Text layoutX="25.0" layoutY="35.0" strokeType="OUTSIDE" text="PART NUMBER" textAlignment="CENTER">
-                     <font>
-                        <Font name="Arial Bold" size="18.0" />
-                     </font>
-                  </Text>
-                  <TextField fx:id="PartNumber" layoutX="416.0" layoutY="16.0" prefHeight="26.0" prefWidth="300.0" />
-               </children>
-            </AnchorPane>
+                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <Text layoutX="25.0" layoutY="35.0" strokeType="OUTSIDE" text="PART NUMBER" textAlignment="CENTER">
+                            <font>
+                                <Font name="Arial Bold" size="18.0" />
+                            </font>
+                        </Text>
+                        <TextField fx:id="PartNumber" layoutX="416.0" layoutY="16.0" prefHeight="26.0" prefWidth="300.0" />
+                    </children>
+                </AnchorPane>
             </children>
         </GridPane>
         <Button fx:id="Submit" layoutX="627.0" layoutY="596.0" minHeight="40.0" minWidth="200.0" mnemonicParsing="false" onAction="#AddMisc" style="-fx-background-color: #005575;" text="SUBMIT" textFill="WHITE">

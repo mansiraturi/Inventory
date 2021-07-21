@@ -3,14 +3,11 @@ package sample;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-
-
-public class DatabaseConnection {
-
+public class DatabaseConnectionNext {
     public Connection databaseLink;
 
     public Connection getConnection() {
-        String databaseName = "inventory_management";
+        String databaseName = "deletelog";
         String databaseUser = "root";
         String databasePassword = "Krahul*8752";
 

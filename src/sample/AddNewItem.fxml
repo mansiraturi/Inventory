@@ -22,7 +22,7 @@
                 <Font name="Arial Black" size="22.0"/>
             </font>
         </Button>
-        <Button fx:id="back" mnemonicParsing="false" onAction="#goThird" prefHeight="46.0" prefWidth="121.0"
+        <Button fx:id="back" mnemonicParsing="false" onAction="#goAddItem" prefHeight="46.0" prefWidth="121.0"
                 style="-fx-background-color: #C4FCF0;" text="&lt;- BACK" textAlignment="JUSTIFY" textFill="#005575">
             <font>
                 <Font name="System Bold" size="21.0"/>

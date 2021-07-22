@@ -78,7 +78,7 @@ public class monthlyLog  implements Initializable {
         col_partFor.setCellValueFactory(new PropertyValueFactory<>("P_partFor"));
         col_company.setCellValueFactory(new PropertyValueFactory<>("P_company"));
         col_inventoryDate.setCellValueFactory(new PropertyValueFactory<>("P_invDate"));
-        col_inventoryDate.setCellValueFactory(new PropertyValueFactory<>("P_sourceOfPurchase"));
+        col_sourceOfPurchase.setCellValueFactory(new PropertyValueFactory<>("P_sourceOfPurchase"));
         col_landingPurchaseValue.setCellValueFactory(new PropertyValueFactory<>("P_landingPurchaseValue"));
         col_sellingValue.setCellValueFactory(new PropertyValueFactory<>("P_sellingValue"));
         col_stockLocation.setCellValueFactory(new PropertyValueFactory<>("P_stockLocation"));
@@ -92,7 +92,7 @@ public class monthlyLog  implements Initializable {
             DatabaseConnection connectNow = new DatabaseConnection();
             Connection connectDB = connectNow.getConnection();
 
-            String connectQuery = "SELECT * FROM `inventory_management`.`product_details`";
+            String connectQuery = "SELECT * FROM `deletelog`.`deletemaster`";
             Statement statement = connectDB.createStatement();
             ResultSet queryOutput = statement.executeQuery(connectQuery);
 
@@ -118,11 +118,11 @@ public class monthlyLog  implements Initializable {
             e.printStackTrace();
         }
     }
+
         public void monthlyLog(ActionEvent actionEvent) {
             LocalDate startDate=startdatelog.getValue();
             LocalDate endDate=enddatelog.getValue();
-            String connectQuery = "select * from product_details where mfd between '" + startDate + "' and '" + endDate + "'";
-            System.out.println(connectQuery);
+            String connectQuery = "SELECT * from `deletelog`.`deletemaster` where inventory_date between '" + startDate + "' and '" + endDate + "'";
             tableView.getItems().clear();
 
             try {

@@ -12,7 +12,7 @@ public class DatabaseConnection {
     public Connection getConnection() {
         String databaseName = "inventory_management";
         String databaseUser = "root";
-        String databasePassword = "Krahul*8752";
+        String databasePassword = "4562";
 
         String url = "jdbc:mysql://localhost:3306/" + databaseName;
 

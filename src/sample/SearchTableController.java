@@ -110,7 +110,7 @@ public class SearchTableController implements Initializable {
             col_partFor.setCellValueFactory(new PropertyValueFactory<>("P_partFor"));
             col_company.setCellValueFactory(new PropertyValueFactory<>("P_company"));
             col_inventoryDate.setCellValueFactory(new PropertyValueFactory<>("P_invDate"));
-            col_inventoryDate.setCellValueFactory(new PropertyValueFactory<>("P_sourceOfPurchase"));
+            col_sourceOfPurchase.setCellValueFactory(new PropertyValueFactory<>("P_sourceOfPurchase"));
             col_landingPurchaseValue.setCellValueFactory(new PropertyValueFactory<>("P_landingPurchaseValue"));
             col_sellingValue.setCellValueFactory(new PropertyValueFactory<>("P_sellingValue"));
             col_stockLocation.setCellValueFactory(new PropertyValueFactory<>("P_stockLocation"));

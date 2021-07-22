@@ -82,9 +82,6 @@ public class Controller implements Initializable {
     private DatePicker InventoryDate;
 
     @FXML
-    private TextArea techDetails;
-
-    @FXML
     private TextArea SourceOfPurchase;
 
     private final String[] partfor = {"CR Injector","CR Pump","CR Rail","EUI/EUP AII","INCLINE PUMP","VE/EDC PUMP/ VP14/VPH4","Heavy/Special","China Parts","MISCELLANEOUS"};
@@ -210,7 +207,7 @@ String stockImage;
 //        Random rand= new Random();
 //
 //        UPC.setText(myString);
-        if (PartNumber.getText().length()==0 || Quantity.getText().length()==0 || InventoryDate.getValue().toString().length()==0 || SourceOfPurchase.getText().length()==0 || LandingValue.getText().length()==0 || SellValue.getText().length()==0 ) {
+        if (PartNumber.getText().length()==0 || Quantity.getText().length()==0 || InventoryDate.getValue()==null || SourceOfPurchase.getText().length()==0 || LandingValue.getText().length()==0 || SellValue.getText().length()==0 ) {
             flag=true;
 
             Stage stage = (Stage) myAnchorPane.getScene().getWindow();
@@ -226,7 +223,8 @@ String stockImage;
             alert.getDialogPane().setHeaderText("the * marked fields are compulsory");
             Optional<ButtonType> result = alert.showAndWait();
         }
-        else if  (flag==false) {
+
+        else if  (!flag) {
 
             String quantity = Quantity.getText();
             int l = quantity.length();
@@ -239,81 +237,140 @@ String stockImage;
                     b = 0;
                 }
             }
-            int ans = ctr * b;
-
-            String Partnumber = PartNumber.getText();
-            String RefPartnumber = ReferencePartNumber.getText();
-            String addon = AddOn.getText();
-            String Sourceofpurchase = SourceOfPurchase.getText();
-            String landingValue = LandingValue.getText();
-            String sellvalue = SellValue.getText();
-            String PartFor = partFor.getValue().toString();
-            String company = Company.getValue().toString();
-            String inventoryDate = InventoryDate.getValue().toString();
-            String StockLocation = stockImage;
-            String TechDetails = techDetails.getText();
-
-            if (ans != 0) {
-                try {
-
-                    Stage stage = (Stage) myAnchorPane.getScene().getWindow();
-
-                    Alert.AlertType type = Alert.AlertType.CONFIRMATION;
-                    Alert alert = new Alert(type, "");
-
-                    alert.initModality(Modality.APPLICATION_MODAL);
-                    alert.initOwner(stage);
-
-                    alert.getDialogPane().setContentText("Do you want to confirm?");
-
-                    alert.getDialogPane().setHeaderText("You have given the correct information about the products.\nUnique Product Code Generated is ");
-                    Optional<ButtonType> result = alert.showAndWait();
-
-                    if (result.get() == ButtonType.OK) {
-                        // addData(Partnumber,RefPartnumber,addon,quantity, PartFor, company,inventoryDate,Sourceofpurchase,landingValue,sellvalue, StockLocation, TechDetails);
-
-                        Code128Bean code128 = new Code128Bean();
-                        String myString = PartNumber.getText();
-                        String image_name = PartNumber.getText() + ".png";
-                        code128.setHeight(15f);
-                        code128.setModuleWidth(0.3);
-                        code128.setQuietZone(10);
-                        code128.doQuietZone(true);
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-                        code128.generateBarcode(canvas, myString);
-                        canvas.finish();
-                        //write to png file
-                        FileOutputStream fos = new FileOutputStream("C:\\Users\\4manm\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
-                        fos.write(baos.toByteArray());
-                        fos.flush();
-                        fos.close();
+            int ans1 = ctr * b;
 
 
-                        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddItem.fxml")));
-                        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                        scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
-                    }
-
-                } catch (Exception e) {
-                    // TODO: handle exception
+        String Partnumber = PartNumber.getText();
+        String RefPartNumber = ReferencePartNumber.getText();
+//        String quantity = Quantity.getText();
+        String addon = AddOn.getText();
+        String Sourceofpurchase = SourceOfPurchase.getText();
+        String landingValue= LandingValue.getText();
+        int l2 = landingValue.length();
+            int ctr2 = 1;
+            int a = 1;
+            for (int i = 0; i < l; i++) {
+                if (landingValue.charAt(i) >= '0' && landingValue.charAt(i) <= '9') {
+                    ctr2++;
+                } else {
+                    a = 0;
                 }
-            } else {
-                answer.setVisible(true);
-                Quantity.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                Quantity.setText("*Enter digits from 0 to 9");
+            }
+            int ans2 = ctr2 * a;
+        String sellvalue= SellValue.getText();
+            int l3 = sellvalue.length();
+            int ctr3 = 1;
+            int c = 1;
+            for (int i = 0; i < l; i++) {
+                if (sellvalue.charAt(i) >= '0' && sellvalue.charAt(i) <= '9') {
+                    ctr3++;
+                } else {
+                    c = 0;
+                }
+            }
+            int ans3 = ctr3 * c;
+        String PartFor = partFor.getValue();
+        String company = Company.getValue();
+        String inventoryDate = InventoryDate.getValue().toString();
+        String StockLocation = stockImage;
+        String Comment = "";
+
+        String setOf = "";
+        String Prefix = "";
+
+        PartFor = PartFor==null ? "" : PartFor.toString();
+        company = company==null ? "" : company.toString();
+        RefPartNumber = RefPartNumber==null ? "" : RefPartNumber.toString();
+
+//        Random rand= new Random();
+//        UPC.setText(myString);
+        if (ans1 != 0 && ans2!=0 && ans3!=0) {
+            try {
+
+                Stage stage = (Stage) myAnchorPane.getScene().getWindow();
+
+                Alert.AlertType type = Alert.AlertType.CONFIRMATION;
+                Alert alert = new Alert(type, "");
+
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.initOwner(stage);
+
+                alert.getDialogPane().setContentText("Do you want to confirm?");
+
+                alert.getDialogPane().setHeaderText("You have given the correct information about the products.");
+                Optional<ButtonType> result = alert.showAndWait();
+
+                if (result.get() == ButtonType.OK) {
+                    addData(Partnumber, RefPartNumber, addon, quantity, PartFor, company, inventoryDate, Sourceofpurchase, landingValue, sellvalue, StockLocation, setOf, Prefix, Comment);
+
+//                Code128Bean code128 = new Code128Bean();
+//                String myString = PartNumber.getText() ;
+//                String image_name = PartNumber.getText() + ".png";
+//                code128.setHeight(15f);
+//                code128.setModuleWidth(0.3);
+//                code128.setQuietZone(10);
+//                code128.doQuietZone(true);
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+//                code128.generateBarcode(canvas, myString);
+//                canvas.finish();
+//                //write to png file
+//                FileOutputStream fos = new FileOutputStream("C:\\Users\\4manm\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
+//                fos.write(baos.toByteArray());
+//                fos.flush();
+//                fos.close();
+
+
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddItem.fxml")));
+                    stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                }
+
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+        }
+        else if  (ans1==0) {
+            Quantity.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            Quantity.setText("*Enter digits from 0 to 9");
+            if ((ans2 == 0) && (ans3 == 0)) {
+                LandingValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                LandingValue.setText("*Enter digits from 0 to 9");
+                SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                SellValue.setText("*Enter digits from 0 to 9");
+            } else if (ans2 == 0) {
+                LandingValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                LandingValue.setText("*Enter digits from 0 to 9");
+            } else if (ans3 == 0) {
+                SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                SellValue.setText("*Enter digits from 0 to 9");
+            } else{
+                ;
+            }
+        }
+        else if(ans2==0) {
+            LandingValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            LandingValue.setText("*Enter digits from 0 to 9");
+            if (ans3 == 0) {
+                SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                SellValue.setText("*Enter digits from 0 to 9");
+            }
+            else{;}
+        }
+        else if(ans3==0) {
+            SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+            SellValue.setText("*Enter digits from 0 to 9");
+        }
             }
 
         }
-    }
-
 
     public void AddSystem(ActionEvent actionEvent) {
-        boolean flag=false;
-        if (PartNumber.getText().length()==0 || Quantity.getText().length()==0 || InventoryDate.getValue().toString().length()==0 || SourceOfPurchase.getText().length()==0 || LandingValue.getText().length()==0 || SellValue.getText().length()==0 || prefix.getValue().length()==0) {
-            flag=true;
+        boolean flag = false;
+        if (PartNumber.getText().length() == 0 || Quantity.getText().length() == 0 || InventoryDate.getValue() == null || SourceOfPurchase.getText().length() == 0 || LandingValue.getText().length() == 0 || SellValue.getText().length() == 0 || prefix.getValue() == null) {
+            flag = true;
             Stage stage = (Stage) myAnchorPane.getScene().getWindow();
 
             Alert.AlertType type = Alert.AlertType.ERROR;
@@ -326,8 +383,7 @@ String stockImage;
 
             alert.getDialogPane().setHeaderText("the * marked fields are compulsory");
             Optional<ButtonType> result = alert.showAndWait();
-        }
-        else if  (flag==false) {
+        } else if (!flag) {
 
             String Partnumber = PartNumber.getText();
             String RefPartNumber = ReferencePartNumber.getText();
@@ -342,21 +398,45 @@ String stockImage;
                     b = 0;
                 }
             }
-            int ans = ctr * b;
+            int ans1 = ctr * b;
+
+//        String Partnumber = PartNumber.getText();
+//        String RefPartNumber = ReferencePartNumber.getText();
+//        String quantity = Quantity.getText();
             String addon = AddOn.getText();
             String Sourceofpurchase = SourceOfPurchase.getText();
             String landingValue = LandingValue.getText();
-            String sellvalue = SellValue.getText();
+            int l2 = landingValue.length();
+            int ctr2 = 1;
+            int a = 1;
+            for (int i = 0; i < l; i++) {
+                if (landingValue.charAt(i) >= '0' && landingValue.charAt(i) <= '9') {
+                    ctr2++;
+                } else {
+                    a = 0;
+                }
+            }
+            int ans2 = ctr2 * a;
+            String sellvalue= SellValue.getText();
+            int l3 = sellvalue.length();
+            int ctr3 = 1;
+            int c = 1;
+            for (int i = 0; i < l; i++) {
+                if (sellvalue.charAt(i) >= '0' && sellvalue.charAt(i) <= '9') {
+                    ctr3++;
+                } else {
+                    c = 0;
+                }
+            }
+            int ans3 = ctr3 * c;
             String PartFor = partFor.getValue();
             String company = Company.getValue();
             String inventoryDate = InventoryDate.getValue().toString();
             String StockLocation = stockImage;
-            String TechDetails = "";
             String Comment = "";
 
             String setOf = setof.getText();
             String Prefix = prefix.getValue();
-            SourceOfPurchase.setText("*Please fill the field");
 
             PartFor = PartFor == null ? "" : PartFor.toString();
             company = company == null ? "" : company.toString();
@@ -364,8 +444,7 @@ String stockImage;
 
 //        Random rand= new Random();
 //        UPC.setText(myString);
-
-            if (ans != 0) {
+            if ((ans1 != 0) && (ans2!=0) && (ans3!=0)) {
                 try {
 
                     Stage stage = (Stage) myAnchorPane.getScene().getWindow();
@@ -378,116 +457,11 @@ String stockImage;
 
                     alert.getDialogPane().setContentText("Do you want to confirm?");
 
-                    alert.getDialogPane().setHeaderText("You have given the correct information about the products.\nUnique Product Code Generated is ");
+                    alert.getDialogPane().setHeaderText("You have given the correct information about the products. ");
                     Optional<ButtonType> result = alert.showAndWait();
 
                     if (result.get() == ButtonType.OK) {
-                        // addData(Partnumber,RefPartNumber,addon,quantity, PartFor, company,inventoryDate,Sourceofpurchase,landingValue,sellvalue, StockLocation, TechDetails,setOf, Prefix, Comment);
-
-             Code128Bean code128 = new Code128Bean();
-             String myString = PartNumber.getText();
-             String image_name = PartNumber.getText() + ".png";
-             code128.setHeight(15f);
-             code128.setModuleWidth(0.3);
-             code128.setQuietZone(10);
-             code128.doQuietZone(true);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-             code128.generateBarcode(canvas, myString);
-            canvas.finish();
-             //write to png file
-             FileOutputStream fos = new FileOutputStream("C:\\Users\\Mansi\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
-             fos.write(baos.toByteArray());
-             fos.flush();
-             fos.close();
-
-
-                        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddItem.fxml")));
-                        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-                        scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
-                    }
-
-                } catch (Exception e) {
-                    // TODO: handle exception
-                }
-            } else {
-                // Quantity.setVisible(true);
-                Quantity.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-                Quantity.setText("*Enter digits from 0 to 9");
-            }
-        }
-    }
-    public void AddMisc(ActionEvent actionEvent) {
-        boolean flag = false;
-        if (PartNumber.getText().length() == 0) {
-            flag = true;
-            Stage stage = (Stage) myAnchorPane.getScene().getWindow();
-
-            Alert.AlertType type = Alert.AlertType.ERROR;
-            Alert alert = new Alert(type, "");
-
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.initOwner(stage);
-
-            alert.getDialogPane().setContentText("Fill in details");
-
-            alert.getDialogPane().setHeaderText("the * marked fields are compulsory");
-            Optional<ButtonType> result = alert.showAndWait();
-        } else if (flag == false) {
-
-            String Partnumber = PartNumber.getText();
-            //String RefPartNumber = ReferencePartNumber.getText();
-            String quantity = Quantity.getText();
-            int l = quantity.length();
-            int ctr = 1;
-            int b = 1;
-            for (int i = 0; i < l; i++) {
-                if (quantity.charAt(i) >= '0' && quantity.charAt(i) <= '9') {
-                    ctr++;
-                } else {
-                    b = 0;
-                }
-            }
-            int ans = ctr * b;
-            String RefPartNumber = "";
-            String addon = "";
-            String Sourceofpurchase = SourceOfPurchase.getText();
-            String landingValue = LandingValue.getText();
-            String sellvalue = SellValue.getText();
-            String PartFor = "";
-            String company = "";
-            String inventoryDate = InventoryDate.getValue().toString();
-            String StockLocation = stockImage;
-            String TechDetails = techDetails.getText();
-            String comment = MiscComment.getText();
-
-            String setOf = "";
-            String Prefix = "";
-
-            RefPartNumber = RefPartNumber == null ? "" : RefPartNumber.toString();
-
-//        Random rand= new Random();
-//        UPC.setText(myString);
-            if(ans!=0) {
-                try {
-
-                    Stage stage = (Stage) myAnchorPane.getScene().getWindow();
-
-                    Alert.AlertType type = Alert.AlertType.CONFIRMATION;
-                    Alert alert = new Alert(type, "");
-
-                    alert.initModality(Modality.APPLICATION_MODAL);
-                    alert.initOwner(stage);
-
-                    alert.getDialogPane().setContentText("Do you want to confirm?");
-
-                    alert.getDialogPane().setHeaderText("You have given the correct information about the products.\nUnique Product Code Generated is ");
-                    Optional<ButtonType> result = alert.showAndWait();
-
-                    if (result.get() == ButtonType.OK) {
-                        addData(Partnumber, RefPartNumber, addon, quantity, PartFor, company, inventoryDate, Sourceofpurchase, landingValue, sellvalue, StockLocation, TechDetails, setOf, Prefix, comment);
+                        addData(Partnumber, RefPartNumber, addon, quantity, PartFor, company, inventoryDate, Sourceofpurchase, landingValue, sellvalue, StockLocation, setOf, Prefix, Comment);
 
 //                Code128Bean code128 = new Code128Bean();
 //                String myString = PartNumber.getText() ;
@@ -517,11 +491,192 @@ String stockImage;
                 } catch (Exception e) {
                     // TODO: handle exception
                 }
-            }
-            else {
-                // Quantity.setVisible(true);
+            } else if  (ans1==0) {
                 Quantity.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 Quantity.setText("*Enter digits from 0 to 9");
+                if ((ans2 == 0) && (ans3 == 0)) {
+                    LandingValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    LandingValue.setText("*Enter digits from 0 to 9");
+                    SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    SellValue.setText("*Enter digits from 0 to 9");
+                } else if (ans2 == 0) {
+                    LandingValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    LandingValue.setText("*Enter digits from 0 to 9");
+                } else if (ans3 == 0) {
+                    SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    SellValue.setText("*Enter digits from 0 to 9");
+                } else{
+                    ;
+                }
+            }
+            else if(ans2==0) {
+                LandingValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                LandingValue.setText("*Enter digits from 0 to 9");
+                if (ans3 == 0) {
+                    SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    SellValue.setText("*Enter digits from 0 to 9");
+                }
+                else{;}
+            }
+            else if(ans3==0) {
+                SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                SellValue.setText("*Enter digits from 0 to 9");
+            }
+        }
+    }
+
+    public void AddMisc(ActionEvent actionEvent) {
+        boolean flag = false;
+        if (PartNumber.getText().length() == 0 || Quantity.getText().length() == 0 || InventoryDate.getValue() == null || LandingValue.getText().length()==0 || SellValue.getText().length()==0 ) {
+            flag = true;
+            Stage stage = (Stage) myAnchorPane.getScene().getWindow();
+
+            Alert.AlertType type = Alert.AlertType.ERROR;
+            Alert alert = new Alert(type, "");
+
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.initOwner(stage);
+
+            alert.getDialogPane().setContentText("Fill in details");
+
+            alert.getDialogPane().setHeaderText("the * marked fields are compulsory");
+            Optional<ButtonType> result = alert.showAndWait();
+        } else if (!flag) {
+
+            String Partnumber = PartNumber.getText();
+            //String RefPartNumber = ReferencePartNumber.getText();
+            String quantity = Quantity.getText();
+            int l = quantity.length();
+            int ctr = 1;
+            int b = 1;
+            for (int i = 0; i < l; i++) {
+                if (quantity.charAt(i) >= '0' && quantity.charAt(i) <= '9') {
+                    ctr++;
+                } else {
+                    b = 0;
+                }
+            }
+            int ans1 = ctr * b;
+
+//        String Partnumber = "fhghjk5657";
+        String RefPartNumber = "";
+//        String quantity = Quantity.getText();
+        String addon = "";
+        String Sourceofpurchase = SourceOfPurchase.getText();
+        String landingValue= LandingValue.getText();
+            int l2 = landingValue.length();
+            int ctr2 = 1;
+            int a = 1;
+            for (int i = 0; i < l; i++) {
+                if (landingValue.charAt(i) >= '0' && landingValue.charAt(i) <= '9') {
+                    ctr2++;
+                } else {
+                    a = 0;
+                }
+            }
+            int ans2 = ctr2 * a;
+            String sellvalue= SellValue.getText();
+            int l3 = sellvalue.length();
+            int ctr3 = 1;
+            int c = 1;
+            for (int i = 0; i < l; i++) {
+                if (sellvalue.charAt(i) >= '0' && sellvalue.charAt(i) <= '9') {
+                    ctr3++;
+                } else {
+                    c = 0;
+                }
+            }
+            int ans3 = ctr3 * c;
+        String PartFor = "";
+        String company = "";
+        String inventoryDate = InventoryDate.getValue().toString();
+        String StockLocation = stockImage;
+        String comment = MiscComment.getText();
+
+        String setOf = "";
+        String Prefix = "";
+
+//        Random rand= new Random();
+//        UPC.setText(myString);
+
+            if((ans1!=0) && (ans2!=0) && (ans3!=0)) {
+
+        try {
+
+            Stage stage = (Stage) myAnchorPane.getScene().getWindow();
+
+            Alert.AlertType type = Alert.AlertType.CONFIRMATION;
+            Alert alert = new Alert(type, "");
+
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.initOwner(stage);
+
+            alert.getDialogPane().setContentText("Do you want to confirm?");
+
+            alert.getDialogPane().setHeaderText("You have given the correct information about the products.");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == ButtonType.OK) {
+                addData(Partnumber,RefPartNumber,addon,quantity, PartFor, company,inventoryDate,Sourceofpurchase,landingValue,sellvalue, StockLocation, setOf, Prefix, comment);
+
+//                Code128Bean code128 = new Code128Bean();
+//                String myString = PartNumber.getText() ;
+//                String image_name = PartNumber.getText() + ".png";
+//                code128.setHeight(15f);
+//                code128.setModuleWidth(0.3);
+//                code128.setQuietZone(10);
+//                code128.doQuietZone(true);
+//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+//                code128.generateBarcode(canvas, myString);
+//                canvas.finish();
+//                //write to png file
+//                FileOutputStream fos = new FileOutputStream("C:\\Users\\4manm\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
+//                fos.write(baos.toByteArray());
+//                fos.flush();
+//                fos.close();
+
+
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddItem.fxml")));
+                stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+    } else if  (ans1==0) {
+                Quantity.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                Quantity.setText("*Enter digits from 0 to 9");
+                if ((ans2 == 0) && (ans3 == 0)) {
+                    LandingValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    LandingValue.setText("*Enter digits from 0 to 9");
+                    SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    SellValue.setText("*Enter digits from 0 to 9");
+                } else if (ans2 == 0) {
+                    LandingValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    LandingValue.setText("*Enter digits from 0 to 9");
+                } else if (ans3 == 0) {
+                    SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    SellValue.setText("*Enter digits from 0 to 9");
+                } else{
+                    ;
+                }
+            }
+            else if(ans2==0) {
+                LandingValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                LandingValue.setText("*Enter digits from 0 to 9");
+                if (ans3 == 0) {
+                    SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                    SellValue.setText("*Enter digits from 0 to 9");
+                }
+                else{;}
+            }
+            else if(ans3==0) {
+                SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
+                SellValue.setText("*Enter digits from 0 to 9");
             }
         }
     }
@@ -634,12 +789,12 @@ String stockImage;
         stage.show();
     }
 
-    public void addData(String PartNumber,String ReferencePartNumber,String AddOn,String Quantity,String PartFor,String Company,String InventoryDate,String SourceOfPurchase,String LandingPurchaseValue,String SellValue,String StockLocation,String TechDetails,String setof, String prefix, String Comment){
+    public void addData(String PartNumber,String ReferencePartNumber,String AddOn,String Quantity,String PartFor,String Company,String InventoryDate,String SourceOfPurchase,String LandingPurchaseValue,String SellValue,String StockLocation,String setof, String prefix, String Comment){
 
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String connectQuery = "INSERT INTO `inventory_management`.`inward_item` (`part_no`,\n" +
+        String connectQuery1 = "INSERT INTO `inventory_management`.`inward_item` (`part_no`,\n" +
                 "`ref_part_no`,\n" +
                 "`add_on`,\n" +
                 "`quantity`,\n" +
@@ -650,15 +805,28 @@ String stockImage;
                 "`landing_pv`,\n" +
                 "`sell_v`,\n" +
                 "`stock_loc`,\n" +
-                "`tech_details`,\n" +
                 "`setof`,\n" +
                 "`prefix`,\n" +
-                "`comment`) VALUES ('"+PartNumber+"','"+ReferencePartNumber+"','"+AddOn+"','"+Quantity+"','"+PartFor+"','"+Company+"','"+InventoryDate+"','"+SourceOfPurchase+"','"+LandingPurchaseValue+"','"+SellValue+"','"+StockLocation+"','"+TechDetails+"','"+setof+"','"+prefix+"','"+Comment+"'"+")";
-//        System.out.print(connectQuery);
+                "`comment`) VALUES ('"+PartNumber+"','"+ReferencePartNumber+"','"+AddOn+"','"+Quantity+"','"+PartFor+"','"+Company+"','"+InventoryDate+"','"+SourceOfPurchase+"','"+LandingPurchaseValue+"','"+SellValue+"','"+StockLocation+"','"+setof+"','"+prefix+"','"+Comment+"'"+")";
 
+        String connectQuery2 = "INSERT INTO `deletelog`.`deletemaster` (`part_no`,\n" +
+                "`ref_part_no`,\n" +
+                "`add_on`,\n" +
+                "`quantity`,\n" +
+                "`part_for`,\n" +
+                "`company`,\n" +
+                "`inventory_date`,\n" +
+                "`source_of_p`,\n" +
+                "`landing_pv`,\n" +
+                "`sell_v`,\n" +
+                "`stock_loc`,\n" +
+                "`setof`,\n" +
+                "`prefix`,\n" +
+                "`comment`) VALUES ('"+PartNumber+"','"+ReferencePartNumber+"','"+AddOn+"','"+Quantity+"','"+PartFor+"','"+Company+"','"+InventoryDate+"','"+SourceOfPurchase+"','"+LandingPurchaseValue+"','"+SellValue+"','"+StockLocation+"','"+setof+"','"+prefix+"','"+Comment+"'"+")";
         try{
             Statement statement = connectDB.createStatement();
-            statement.executeUpdate(connectQuery);
+            statement.executeUpdate(connectQuery1);
+            statement.executeUpdate(connectQuery2);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -696,82 +864,4 @@ String stockImage;
         stage.show();
     }
 
-    public void goAddExistingEdit(ActionEvent actionEvent) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddExistingEdit.fxml")));
-        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void AddExistingEdit(ActionEvent event) {
-        String Partnumber = PartNumber.getText();
-        String RefPartNumber = ReferencePartNumber.getText();
-        String quantity = Quantity.getText();
-        String addon = AddOn.getText();
-        String Sourceofpurchase = SourceOfPurchase.getText();
-        String landingValue= LandingValue.getText();
-        String sellvalue= SellValue.getText();
-        String PartFor = "";
-        String company = "";
-        String inventoryDate = InventoryDate.getValue().toString();
-        String StockLocation = stockImage;
-        String TechDetails = "";
-        String Comment = "";
-
-        String setOf = setof.getText();
-        String Prefix = prefix.getValue();
-
-        RefPartNumber = RefPartNumber==null ? "" : RefPartNumber.toString();
-
-//        Random rand= new Random();
-//        UPC.setText(myString);
-
-        try {
-
-            Stage stage = (Stage) myAnchorPane.getScene().getWindow();
-
-            Alert.AlertType type = Alert.AlertType.CONFIRMATION;
-            Alert alert = new Alert(type, "");
-
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.initOwner(stage);
-
-            alert.getDialogPane().setContentText("Do you want to confirm?");
-
-            alert.getDialogPane().setHeaderText("You have given the correct information about the products.\nUnique Product Code Generated is ");
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (result.get() == ButtonType.OK) {
-                addData(Partnumber,RefPartNumber,addon,quantity, PartFor, company,inventoryDate,Sourceofpurchase,landingValue,sellvalue, StockLocation, TechDetails,setOf, Prefix, Comment);
-
-//                Code128Bean code128 = new Code128Bean();
-//                String myString = PartNumber.getText() ;
-//                String image_name = PartNumber.getText() + ".png";
-//                code128.setHeight(15f);
-//                code128.setModuleWidth(0.3);
-//                code128.setQuietZone(10);
-//                code128.doQuietZone(true);
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-//                code128.generateBarcode(canvas, myString);
-//                canvas.finish();
-//                //write to png file
-//                FileOutputStream fos = new FileOutputStream("C:\\Users\\4manm\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
-//                fos.write(baos.toByteArray());
-//                fos.flush();
-//                fos.close();
-
-
-                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddItem.fxml")));
-                stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            }
-
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-    }
 }

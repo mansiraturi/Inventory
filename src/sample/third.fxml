@@ -6,12 +6,12 @@
 
 <AnchorPane minHeight="650.0" minWidth="1290.0" prefHeight="454.0" prefWidth="405.0" style="-fx-background-color: #C4FCF0;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <children>
-        <Button layoutX="450.0" layoutY="350.0" mnemonicParsing="false" onAction="#goDelete" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="OUTWARD ITEMS" textFill="WHITE">
+        <Button layoutX="450.0" layoutY="216.0" mnemonicParsing="false" onAction="#goDelete" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="OUTWARD ITEMS" textFill="WHITE">
             <font>
                 <Font name="Arial Black" size="25.0" />
             </font>
         </Button>
-        <Button layoutX="450.0" layoutY="250.0" mnemonicParsing="false" onAction="#goAddItem" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="INWARD ITEMS" textFill="WHITE">
+        <Button layoutX="450.0" layoutY="310.0" mnemonicParsing="false" onAction="#goAddItem" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="SEARCH" textFill="WHITE">
             <font>
                 <Font name="Arial Black" size="25.0" />
             </font>
@@ -25,7 +25,12 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Button>
-      <Button layoutX="450.0" layoutY="449.0" mnemonicParsing="false" onAction="#monthlylog" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="MONTHY LOG" textFill="WHITE">
+      <Button layoutX="450.0" layoutY="407.0" mnemonicParsing="false" onAction="#monthlylog" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="MONTHY LOG" textFill="WHITE">
+         <font>
+            <Font name="Arial Black" size="25.0" />
+         </font>
+      </Button>
+      <Button layoutX="450.0" layoutY="123.0" mnemonicParsing="false" onAction="#goAddItem" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="INWARD ITEMS" textFill="WHITE">
          <font>
             <Font name="Arial Black" size="25.0" />
          </font>

@@ -207,7 +207,7 @@ String stockImage;
 //        Random rand= new Random();
 //
 //        UPC.setText(myString);
-        if (PartNumber.getText().length()==0 || Quantity.getText().length()==0 || InventoryDate.getValue()==null || SourceOfPurchase.getText().length()==0 || LandingValue.getText().length()==0 || SellValue.getText().length()==0 ) {
+        if (PartNumber.getText().length()==0 || Quantity.getText().length()==0 || InventoryDate.getValue()==null || LandingValue.getText().length()==0 || SellValue.getText().length()==0 ) {
             flag=true;
 
             Stage stage = (Stage) myAnchorPane.getScene().getWindow();
@@ -225,7 +225,6 @@ String stockImage;
         }
 
         else if  (!flag) {
-
             String quantity = Quantity.getText();
             int l = quantity.length();
             int ctr = 1;
@@ -249,7 +248,7 @@ String stockImage;
         int l2 = landingValue.length();
             int ctr2 = 1;
             int a = 1;
-            for (int i = 0; i < l; i++) {
+            for (int i = 0; i < l2; i++) {
                 if (landingValue.charAt(i) >= '0' && landingValue.charAt(i) <= '9') {
                     ctr2++;
                 } else {
@@ -261,7 +260,7 @@ String stockImage;
             int l3 = sellvalue.length();
             int ctr3 = 1;
             int c = 1;
-            for (int i = 0; i < l; i++) {
+            for (int i = 0; i < l3; i++) {
                 if (sellvalue.charAt(i) >= '0' && sellvalue.charAt(i) <= '9') {
                     ctr3++;
                 } else {
@@ -369,7 +368,7 @@ String stockImage;
 
     public void AddSystem(ActionEvent actionEvent) {
         boolean flag = false;
-        if (PartNumber.getText().length() == 0 || Quantity.getText().length() == 0 || InventoryDate.getValue() == null || SourceOfPurchase.getText().length() == 0 || LandingValue.getText().length() == 0 || SellValue.getText().length() == 0 || prefix.getValue() == null) {
+        if (PartNumber.getText().length() == 0 || Quantity.getText().length() == 0 || InventoryDate.getValue() == null || LandingValue.getText().length() == 0 || LandingValue.getText().length()==0 || SellValue.getText().length() == 0 || prefix.getValue() == null) {
             flag = true;
             Stage stage = (Stage) myAnchorPane.getScene().getWindow();
 
@@ -409,7 +408,7 @@ String stockImage;
             int l2 = landingValue.length();
             int ctr2 = 1;
             int a = 1;
-            for (int i = 0; i < l; i++) {
+            for (int i = 0; i < l2; i++) {
                 if (landingValue.charAt(i) >= '0' && landingValue.charAt(i) <= '9') {
                     ctr2++;
                 } else {
@@ -421,7 +420,7 @@ String stockImage;
             int l3 = sellvalue.length();
             int ctr3 = 1;
             int c = 1;
-            for (int i = 0; i < l; i++) {
+            for (int i = 0; i < l2; i++) {
                 if (sellvalue.charAt(i) >= '0' && sellvalue.charAt(i) <= '9') {
                     ctr3++;
                 } else {
@@ -557,7 +556,6 @@ String stockImage;
                 }
             }
             int ans1 = ctr * b;
-
 //        String Partnumber = "fhghjk5657";
         String RefPartNumber = "";
 //        String quantity = Quantity.getText();
@@ -567,7 +565,7 @@ String stockImage;
             int l2 = landingValue.length();
             int ctr2 = 1;
             int a = 1;
-            for (int i = 0; i < l; i++) {
+            for (int i = 0; i < l2; i++) {
                 if (landingValue.charAt(i) >= '0' && landingValue.charAt(i) <= '9') {
                     ctr2++;
                 } else {
@@ -579,7 +577,7 @@ String stockImage;
             int l3 = sellvalue.length();
             int ctr3 = 1;
             int c = 1;
-            for (int i = 0; i < l; i++) {
+            for (int i = 0; i < l3; i++) {
                 if (sellvalue.charAt(i) >= '0' && sellvalue.charAt(i) <= '9') {
                     ctr3++;
                 } else {
@@ -864,4 +862,11 @@ String stockImage;
         stage.show();
     }
 
+    public void goadminSearch(ActionEvent actionEvent) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("adminSearch.fxml")));
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 }

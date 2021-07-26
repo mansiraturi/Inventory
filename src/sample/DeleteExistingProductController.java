@@ -26,7 +26,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class addExistingController implements Initializable {
+public class DeleteExistingProductController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -37,7 +37,7 @@ public class addExistingController implements Initializable {
     @FXML
     private TextField selectedQuantity;
     @FXML
-    public TextField filterBox=new TextField();
+    public TextField filterBox;
     @FXML
     public TableView<adminModelTable> tableView = new TableView<>();
     @FXML
@@ -57,9 +57,9 @@ public class addExistingController implements Initializable {
     @FXML
     public TableColumn<adminModelTable, String> col_sourceOfPurchase = new TableColumn<>();
     @FXML
-    public TableColumn<adminModelTable, Integer> col_landingPurchaseValue = new TableColumn<>();
+    public TableColumn<adminModelTable,Integer> col_landingPurchaseValue=new TableColumn<>();
     @FXML
-    public TableColumn<adminModelTable, Integer> col_sellingValue = new TableColumn<>();
+    public TableColumn<adminModelTable,Integer> col_sellingValue=new TableColumn<>();
     @FXML
     public TableColumn<adminModelTable, String> col_stockLocation = new TableColumn<>();
     @FXML
@@ -126,25 +126,25 @@ public class addExistingController implements Initializable {
 
             FilteredList<adminModelTable> filteredData = new FilteredList<>(observableList, b -> true);
             filterBox.textProperty().addListener((observableValue, s, t1) -> {
-                filteredData.setPredicate(modelTable -> {
+                filteredData.setPredicate(adminModelTable -> {
                     if (t1 == null || t1.isEmpty()) {
                         return true;
                     }
                     String lowerCaseFilter = t1.toLowerCase();
 
-                    if (modelTable.getP_partNumber().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    if (adminModelTable.getP_partNumber().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                         return true;
                     }
-                    if (String.valueOf(modelTable.getP_refPartNumber()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    if (String.valueOf(adminModelTable.getP_refPartNumber()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
                         return true;
                     }
-                    if (String.valueOf(modelTable.getP_quantity()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    if (String.valueOf(adminModelTable.getP_quantity()).toLowerCase().indexOf(lowerCaseFilter) != -1) {
                         return true;
                     }
-                    if (modelTable.getP_invDate().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    if (adminModelTable.getP_invDate().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                         return true;
                     }
-                    if (modelTable.getP_partFor().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+                    if (adminModelTable.getP_partFor().toLowerCase().indexOf(lowerCaseFilter) != -1) {
                         return true;
                     } else
                         return false;
@@ -158,7 +158,6 @@ public class addExistingController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void goSample(ActionEvent actionEvent) throws IOException {
@@ -182,7 +181,7 @@ public class addExistingController implements Initializable {
 //            ResultSet queryOutput = statement.executeQuery(connectQuery);
 //
 //            while (queryOutput.next()) {
-//                observableList.add(new modelTable(
+//                observableList.add(new adminModelTable(
 //                        queryOutput.getInt("prod_code"),
 //                        queryOutput.getString("mfd"),
 //                        queryOutput.getString("last_date"),
@@ -197,7 +196,7 @@ public class addExistingController implements Initializable {
 
 
 //    public void showRowDetails(ActionEvent event) {
-//        ObservableList<modelTable> productList;
+//        ObservableList<adminModelTable> productList;
 //        productList = tableView.getSelectionModel().getSelectedItems();
 //        Integer selectedProdID = productList.get(0).getPid();
 //
@@ -211,36 +210,128 @@ public class addExistingController implements Initializable {
 //
 
     //    }
+//    public void goLogin(javafx.event.ActionEvent actionEvent) throws IOException {
+//        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
+//        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//    }
+//
+//    public void goSearch(ActionEvent actionEvent) throws IOException {
+//        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("adminSearch.fxml")));
+//        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//    }
+//
+//    public void goDELETE_PUBLIC(ActionEvent actionEvent) throws IOException {
+//        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("DELETE_PUBLIC.fxml")));
+//        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+//        scene = new Scene(root);
+//        stage.setScene(scene);
+//        stage.show();
+//    }
 
-
-
-    public void AddExisting(ActionEvent actionEvent) throws IOException {
-        ObservableList<adminModelTable> selectedItems = tableView.getSelectionModel().getSelectedItems();
-        String selectedProdID = selectedItems.get(0).getP_partNumber();
-
-
-//        String connectQuery1 = String.format("DELETE FROM `inventory_management`.`inward_item` WHERE part_no = '%s'", selectedProdID);
-        String selectedquantity=selectedQuantity.getText();
-        int newCount=selectedItems.get(0).getP_quantity()-Integer.parseInt(selectedquantity);
-
-//         String connectQuery2 = String.format("UPDATE `deletelog`.`outward_item` SET `quantity` = (SELECT `quantity` FROM (SELECT `quantity` FROM deletelog.outward_item WHERE `part_no` = '%s') as lpv ) - %s WHERE `part_no` = '%s';",selectedProdID,selectedquantity,selectedProdID);
-
-        String connectQuery2 = String.format("UPDATE `inventory_management`.`inward_item` SET `quantity` = (SELECT `quantity` FROM (SELECT `quantity` FROM inventory_management.inward_item WHERE `part_no` = '%s') as lpv ) + %s WHERE `part_no` = '%s';",selectedProdID,selectedquantity,selectedProdID);
-
-        try {
-            DatabaseConnectionDelete connectNow = new DatabaseConnectionDelete();
-            Connection connectDB = connectNow.getConnection();
-
-            Statement statement = connectDB.createStatement();
-//            statement.executeUpdate(connectQuery);
-            statement.executeUpdate(connectQuery2);
+//    public void DeleteLog(ActionEvent actionEvent) throws IOException {
+//        ObservableList<adminModelTable> selectedItems = tableView.getSelectionModel().getSelectedItems();
+//        String selectedProdID = selectedItems.get(0).getP_partNumber();
+//        String connectQuery = "INSERT INTO `deletelog`.`outward_item` (\n" +
+//                "`part_no`,\n" +
+//                "`ref_part_no`,\n" +
+//                "`add_on`,\n" +
+//                "`quantity`,\n" +
+//                "`part_for`,\n" +
+//                "`company`,\n" +
+//                "`inventory_date`,\n" +
+//                "`source_of_p`,\n" +
+//                "`stock_loc`,\n" +
+//                "`tech_details`,\n" +
+//                "`setof`,\n" +
+//                "`prefix`,\n" +
+//                "`comment`) VALUES ('"+selectedItems.get(0).getP_partNumber()+"','"+selectedItems.get(0).getP_refPartNumber()+"','"+selectedItems.get(0).getP_addOn()+"','"+selectedItems.get(0).getP_quantity()+"','"+selectedItems.get(0).getP_partFor()+"','"+selectedItems.get(0).getP_company()+"','"+selectedItems.get(0).getP_invDate()+"','"+selectedItems.get(0).getP_sourceOfPurchase()+"','"+selectedItems.get(0).getP_stockLocation()+"','"+selectedItems.get(0).getP_techDetails()+"','"+selectedItems.get(0).getP_setOf()+"','"+selectedItems.get(0).getP_prefix()+"','"+selectedItems.get(0).getP_comment()+"'"+")";
+//
+////        String connectQuery1 = String.format("DELETE FROM `inventory_management`.`inward_item` WHERE part_no = '%s'", selectedProdID);
+//        String selectedquantity=selectedQuantity.getText();
+//        int newCount=selectedItems.get(0).getP_quantity()-Integer.parseInt(selectedquantity);
+//
+//
+//
+//
+//
+//        String connectQuery3 = "INSERT INTO `deletelog`.`outward_item` (\n" +
+//                "`part_no`,\n" +
+//                "`ref_part_no`,\n" +
+//                "`add_on`,\n" +
+//                "`quantity`,\n" +
+//                "`part_for`,\n" +
+//                "`company`,\n" +
+//                "`inventory_date`,\n" +
+//                "`sell_v`,\n" +
+//                "`stock_loc`,\n" +
+//                "`tech_details`,\n" +
+//                "`setof`,\n" +
+//                "`prefix`,\n" +
+//                "`comment`) VALUES ('"+selectedItems.get(0).getP_partNumber()+"','"+selectedItems.get(0).getP_refPartNumber()+"','"+selectedItems.get(0).getP_addOn()+"','"+selectedquantity+"','"+selectedItems.get(0).getP_partFor()+"','"+selectedItems.get(0).getP_company()+"','"+selectedItems.get(0).getP_invDate()+"','"+selectedItems.get(0).getP_sourceOfPurchase()+"','"+selectedItems.get(0).getP_stockLocation()+"','"+selectedItems.get(0).getP_techDetails()+"','"+selectedItems.get(0).getP_setOf()+"','"+selectedItems.get(0).getP_prefix()+"','"+selectedItems.get(0).getP_comment()+"'"+")";
+//
+////         String connectQuery2 = String.format("UPDATE `deletelog`.`outward_item` SET `quantity` = (SELECT `quantity` FROM (SELECT `quantity` FROM deletelog.outward_item WHERE `part_no` = '%s') as lpv ) - %s WHERE `part_no` = '%s';",selectedProdID,selectedquantity,selectedProdID);
+//
+//
+////        String connectQuery2 = String.format("UPDATE `inventory_management`.`inward_item` SET `quantity` = (SELECT `quantity` FROM (SELECT `quantity` FROM inventory_management.inward_item WHERE `part_no` = '%s') as lpv ) - %s WHERE `part_no` = '%s';",selectedProdID,selectedquantity,selectedProdID);
+//
+//        try {
+//            DatabaseConnectionDelete connectNow = new DatabaseConnectionDelete();
+//            Connection connectDB = connectNow.getConnection();
+//
+//            Statement statement = connectDB.createStatement();
+////            statement.executeUpdate(connectQuery);
+////            statement.executeUpdate(connectQuery2);
 //            statement.executeUpdate(connectQuery3);
+//
+//
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        Stage stage = (Stage) myAnchorPane.getScene().getWindow();
+//
+//        Alert.AlertType type = Alert.AlertType.CONFIRMATION;
+//        Alert alert = new Alert(type, "");
+//
+//        alert.initModality(Modality.APPLICATION_MODAL);
+//        alert.initOwner(stage);
+//
+//        alert.getDialogPane().setContentText("Do you want to confirm?");
+//
+//        alert.getDialogPane().setHeaderText("Are you sure you want to delete"+Integer.parseInt(selectedquantity)+"of selected product.");
+//        Optional<ButtonType> result = alert.showAndWait();
+//        if (result.get() == ButtonType.OK) {
+//            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+//            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+//            scene = new Scene(root);
+//            stage.setScene(scene);
+//            stage.show();
+//        }
+////        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+////        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+////        scene = new Scene(root);
+////        stage.setScene(scene);
+////        stage.show();
+//    }
 
+//    public void retrieveSearchedItems(ActionEvent actionEvent) {
+//    }
 
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void goDelete(ActionEvent actionEvent) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("delete.fxml")));
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+    public void DeleteHistory(ActionEvent actionEvent) throws IOException {
         Stage stage = (Stage) myAnchorPane.getScene().getWindow();
 
         Alert.AlertType type = Alert.AlertType.CONFIRMATION;
@@ -251,32 +342,30 @@ public class addExistingController implements Initializable {
 
         alert.getDialogPane().setContentText("Do you want to confirm?");
 
-        alert.getDialogPane().setHeaderText("Are you sure you want to delete"+Integer.parseInt(selectedquantity)+"of selected product.");
+        alert.getDialogPane().setHeaderText("You have given the correct information about the products.");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+            ObservableList<adminModelTable> selectedItems = tableView.getSelectionModel().getSelectedItems();
+            String selectedProdID = selectedItems.get(0).getP_partNumber();
+            String connectQuery = String.format("DELETE FROM `inventory_management`.`inward_item` WHERE part_no = '%s'", selectedProdID);
+            try {
+                DatabaseConnectionDelete connectNow = new DatabaseConnectionDelete();
+                Connection connectDB = connectNow.getConnection();
+
+                Statement statement = connectDB.createStatement();
+//            statement.executeUpdate(connectQuery);
+//            statement.executeUpdate(connectQuery2);
+                statement.executeUpdate(connectQuery);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            observableList.removeAll(selectedItems);
+
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("delete.fxml")));
             stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             scene = new Scene(root);
             stage.setScene(scene);
             stage.show();
         }
-//        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
-//        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-//        scene = new Scene(root);
-//        stage.setScene(scene);
-//        stage.show();
     }
-
-    public void retrieveSearchedItems(ActionEvent actionEvent) {
-    }
-
-    public void goAddItem(ActionEvent actionEvent) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddItem.fxml")));
-        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-
 }

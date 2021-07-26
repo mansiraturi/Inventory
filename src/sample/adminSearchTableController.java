@@ -25,7 +25,7 @@ import java.sql.Statement;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class SearchTableController implements Initializable {
+public class adminSearchTableController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -34,36 +34,40 @@ public class SearchTableController implements Initializable {
     @FXML
     public TextField filterBox;
     @FXML
-    public TableView<modelTable> tableView=new TableView<>();
+    public TableView<adminModelTable> tableView=new TableView<>();
     @FXML
-    public TableColumn<modelTable,String> col_partNo=new TableColumn<>();
+    public TableColumn<adminModelTable,String> col_partNo=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_refPartNo=new TableColumn<>();
+    public TableColumn<adminModelTable,String> col_refPartNo=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_addOn=new TableColumn<>();
+    public TableColumn<adminModelTable,String> col_addOn=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,Integer> col_quantity=new TableColumn<>();
+    public TableColumn<adminModelTable,Integer> col_quantity=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_partFor=new TableColumn<>();
+    public TableColumn<adminModelTable,String> col_partFor=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_company=new TableColumn<>();
+    public TableColumn<adminModelTable,String> col_company=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_inventoryDate=new TableColumn<>();
+    public TableColumn<adminModelTable,String> col_inventoryDate=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_sourceOfPurchase=new TableColumn<>();
+    public TableColumn<adminModelTable,String> col_sourceOfPurchase=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_stockLocation=new TableColumn<>();
+    public TableColumn<adminModelTable,Integer> col_landingPurchaseValue=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_setOf=new TableColumn<>();
+    public TableColumn<adminModelTable,Integer> col_sellingValue=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_prefix=new TableColumn<>();
+    public TableColumn<adminModelTable,String> col_stockLocation=new TableColumn<>();
     @FXML
-    public TableColumn<modelTable,String> col_comment=new TableColumn<>();
+    public TableColumn<adminModelTable,String> col_setOf=new TableColumn<>();
+    @FXML
+    public TableColumn<adminModelTable,String> col_prefix=new TableColumn<>();
+    @FXML
+    public TableColumn<adminModelTable,String> col_comment=new TableColumn<>();
 
     @FXML
     private TextField enteredProdCode;
 
-    ObservableList<modelTable> observableList = FXCollections.observableArrayList();
+    ObservableList<adminModelTable> observableList = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -79,7 +83,7 @@ public class SearchTableController implements Initializable {
             ResultSet queryOutput = statement.executeQuery(connectQuery);
 
             while(queryOutput.next()) {
-                observableList.add(new modelTable(
+                observableList.add(new adminModelTable(
                         queryOutput.getString("part_no"),
                         queryOutput.getString("ref_part_no"),
                         queryOutput.getString("add_on"),
@@ -88,6 +92,8 @@ public class SearchTableController implements Initializable {
                         queryOutput.getString("company"),
                         queryOutput.getString("inventory_date"),
                         queryOutput.getString("source_of_p"),
+                        queryOutput.getInt("landing_pv"),
+                        queryOutput.getInt("sell_v"),
                         queryOutput.getString("stock_loc"),
                         queryOutput.getString("setof"),
                         queryOutput.getString("prefix"),
@@ -102,13 +108,15 @@ public class SearchTableController implements Initializable {
             col_company.setCellValueFactory(new PropertyValueFactory<>("P_company"));
             col_inventoryDate.setCellValueFactory(new PropertyValueFactory<>("P_invDate"));
             col_sourceOfPurchase.setCellValueFactory(new PropertyValueFactory<>("P_sourceOfPurchase"));
+            col_landingPurchaseValue.setCellValueFactory(new PropertyValueFactory<>("P_landingPurchaseValue"));
+            col_sellingValue.setCellValueFactory(new PropertyValueFactory<>("P_sellingValue"));
             col_stockLocation.setCellValueFactory(new PropertyValueFactory<>("P_stockLocation"));
             col_setOf.setCellValueFactory(new PropertyValueFactory<>("P_setOf"));
             col_prefix.setCellValueFactory(new PropertyValueFactory<>("P_prefix"));
             col_comment.setCellValueFactory(new PropertyValueFactory<>("P_comment"));
             tableView.setItems(observableList);
 
-            FilteredList<modelTable> filteredData= new FilteredList<>(observableList, b->true);
+            FilteredList<adminModelTable> filteredData= new FilteredList<>(observableList, b->true);
             filterBox.textProperty().addListener((observableValue, s, t1) -> {
                 filteredData.setPredicate(modelTable -> {
                     if(t1==null || t1.isEmpty()){
@@ -136,7 +144,7 @@ public class SearchTableController implements Initializable {
                 });
             });
 
-            SortedList<modelTable> sortedData=new SortedList<>(filteredData);
+            SortedList<adminModelTable> sortedData=new SortedList<>(filteredData);
             sortedData.comparatorProperty().bind(tableView.comparatorProperty());
             tableView.setItems(sortedData);
 
@@ -154,6 +162,14 @@ public class SearchTableController implements Initializable {
     }
 
     public void retrieveSearchedItems(ActionEvent event) {
+    }
+
+    public void goThird(ActionEvent actionEvent) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("third.fxml")));
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 }
 

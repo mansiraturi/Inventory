@@ -2,44 +2,48 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="650.0" minWidth="1290.0" prefHeight="400.0" prefWidth="600.0"
-            style="-fx-background-color: #C4FCF0;" xmlns="http://javafx.com/javafx/16"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane minHeight="650.0" minWidth="1290.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C4FCF0;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <children>
-        <Button fx:id="newpart" layoutX="407.0" layoutY="277.0" mnemonicParsing="false" onAction="#goAddNewPart"
-                prefHeight="47.0" prefWidth="413.0" style="-fx-background-color: #005575;" text="INWARD NEW PART"
-                textFill="#f7f4f4">
+      <GridPane layoutX="347.0" layoutY="205.0" prefHeight="238.0" prefWidth="474.0" AnchorPane.bottomAnchor="206.6" AnchorPane.leftAnchor="347.0" AnchorPane.rightAnchor="468.6" AnchorPane.topAnchor="205.0">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+              <Button fx:id="newpart" mnemonicParsing="false" onAction="#goAddNewPart" prefHeight="47.0" prefWidth="413.0" style="-fx-background-color: #005575;" text="INWARD NEW PART" textFill="#f7f4f4">
+                  <font>
+                      <Font name="Arial Black" size="22.0" />
+                  </font>
+              </Button>
+              <Button fx:id="newsystem" mnemonicParsing="false" onAction="#goAddNewSystem" prefHeight="47.0" prefWidth="413.0" style="-fx-background-color: #005575;" text="INWARD NEW SYSTEM" textFill="#f2f1e5" GridPane.rowIndex="1">
+                  <font>
+                      <Font name="Arial Black" size="22.0" />
+                  </font>
+              </Button>
+              <Button fx:id="newMISC" mnemonicParsing="false" onAction="#goAddNewMISC" prefHeight="47.0" prefWidth="413.0" style="-fx-background-color: #005575;" text="INWARD NEW MISCELLANEOUS" textFill="#f2f1e5" GridPane.rowIndex="2">
+                  <font>
+                      <Font name="Arial Black" size="22.0" />
+                  </font>
+              </Button>
+         </children>
+      </GridPane>
+        <Button fx:id="back" mnemonicParsing="false" onAction="#goAddItem" prefHeight="46.0" prefWidth="121.0" style="-fx-background-color: #C4FCF0;" text="&lt;- BACK" textAlignment="JUSTIFY" textFill="#005575" AnchorPane.leftAnchor="0.0">
             <font>
-                <Font name="Arial Black" size="22.0"/>
+                <Font name="System Bold" size="21.0" />
             </font>
         </Button>
-        <Button fx:id="newsystem" layoutX="407.0" layoutY="352.0" mnemonicParsing="false" onAction="#goAddNewSystem"
-                prefHeight="47.0" prefWidth="413.0" style="-fx-background-color: #005575;" text="INWARD NEW SYSTEM"
-                textFill="#f2f1e5">
+        <Button fx:id="HOME" layoutX="1168.0" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0" prefWidth="121.0" style="-fx-background-color: #C4FCF0;" text="HOME" textAlignment="JUSTIFY" textFill="#005575" AnchorPane.rightAnchor="-10.0">
             <font>
-                <Font name="Arial Black" size="22.0"/>
-            </font>
-        </Button>
-        <Button fx:id="back" mnemonicParsing="false" onAction="#goAddItem" prefHeight="46.0" prefWidth="121.0"
-                style="-fx-background-color: #C4FCF0;" text="&lt;- BACK" textAlignment="JUSTIFY" textFill="#005575">
-            <font>
-                <Font name="System Bold" size="21.0"/>
-            </font>
-        </Button>
-        <Button fx:id="HOME" layoutX="1168.0" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0"
-                prefWidth="121.0" style="-fx-background-color: #C4FCF0;" text="HOME" textAlignment="JUSTIFY"
-                textFill="#005575">
-            <font>
-                <Font name="System Bold" size="21.0"/>
-            </font>
-        </Button>
-        <Button fx:id="newMISC" layoutX="409.0" layoutY="424.0" mnemonicParsing="false" onAction="#goAddNewMISC"
-                prefHeight="47.0" prefWidth="413.0" style="-fx-background-color: #005575;"
-                text="INWARD NEW MISCELLANEOUS" textFill="#f2f1e5">
-            <font>
-                <Font name="Arial Black" size="22.0"/>
+                <Font name="System Bold" size="21.0" />
             </font>
         </Button>
     </children>

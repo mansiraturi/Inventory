@@ -41,11 +41,16 @@
                         <Font name="Arial Black" size="25.0" />
                     </font>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#downloadLog" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="DOWNLOAD QUOTATION" textFill="WHITE" GridPane.rowIndex="4">
-                    <font>
-                        <Font name="Arial Black" size="25.0" />
-                    </font>
-                </Button>
+            <Button fx:id="ChangePwd" mnemonicParsing="false" onAction="#gochangepassword" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="CHANGE PASSWORD" textFill="WHITE" GridPane.rowIndex="4">
+               <font>
+                  <Font name="Arial Black" size="25.0" />
+               </font>
+            </Button>
+<!--                <Button mnemonicParsing="false" onAction="#downloadLog" prefHeight="60.0" prefWidth="500.0" style="-fx-background-color: #005575;" text="DOWNLOAD QUOTATION" textFill="WHITE" GridPane.rowIndex="4">-->
+<!--                    <font>-->
+<!--                        <Font name="Arial Black" size="25.0" />-->
+<!--                    </font>-->
+<!--                </Button>-->
             </children>
         </GridPane>
         <Button fx:id="back" mnemonicParsing="false" onAction="#goLogin" prefHeight="46.0" prefWidth="115.0" style="-fx-background-color: #C4FCF0;" text="&lt;- BACK" textAlignment="JUSTIFY" textFill="#005575" AnchorPane.leftAnchor="0.0">

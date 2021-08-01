@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ChangePassword.fxml")));
             primaryStage.setTitle("INVENTORY SYSTEM");
             primaryStage.setScene(new Scene(root,1290,650));
             primaryStage.show();

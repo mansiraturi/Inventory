@@ -717,11 +717,12 @@ String stockImage;
         }
     }
     public void confirm(ActionEvent actionEvent) throws IOException {
-        if(SECODE.getText()=="1995")
+        System.out.println(SECODE.getText());
+        if(SECODE.getText().equals("1995"))
         {
             // update the password in database
             String newpwd = newPassword.getText();
-            if(newPassword.getText()==confirmPassword.getText())
+            if(newPassword.getText().equals(confirmPassword.getText()))
             {
                 Stage stage = (Stage) myAnchorPane.getScene().getWindow();
 
@@ -738,7 +739,9 @@ String stockImage;
                 if (result.get() == ButtonType.OK) {
                     DatabaseConnection connectNow = new DatabaseConnection();
                     Connection connectDB = connectNow.getConnection();
-                    String sql = "UPDATE 'password' SET pwd = '" + newPassword.getText()+ "'";
+
+                    String sql= String.format("UPDATE password SET pwd = '%s';", newPassword.getText());
+                    System.out.println(sql);
 
                     try{
                         Statement statement = connectDB.createStatement();
@@ -952,6 +955,14 @@ String stockImage;
 
     public void goadminSearch(ActionEvent actionEvent) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("adminSearch.fxml")));
+        stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void gochangepassword(ActionEvent actionEvent) throws IOException  {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ChangePassword.fxml")));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

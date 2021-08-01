@@ -4,9 +4,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
-import java.io.File;
+import java.io.*;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -20,13 +22,18 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.io.IOException;
+
 import java.util.Objects;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-//import org.krysalis.barcode4j.impl.code128.Code128Bean;
-//import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+
+//import org.apache.poi.xssf.usermodel.XSSFRow;
+//import org.apache.poi.xssf.usermodel.XSSFSheet;
+//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.krysalis.barcode4j.impl.code128.Code128Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Controller implements Initializable {
     private Stage stage;
@@ -43,7 +50,8 @@ public class Controller implements Initializable {
     Button HOME;
     @FXML
     Label wrong;
-
+    @FXML
+    Label mismatch;
 
     @FXML
     private TextField PartNumber;
@@ -61,10 +69,15 @@ public class Controller implements Initializable {
     private TextField setof;
     @FXML
     private TextArea MiscComment;
-
+    @FXML
+    private TextField SECODE;
 
     @FXML
     PasswordField password;
+    @FXML
+    private PasswordField newPassword;
+    @FXML
+    private PasswordField confirmPassword;
 
     @FXML
     private ChoiceBox<String> partFor = new ChoiceBox<>();
@@ -97,16 +110,39 @@ public class Controller implements Initializable {
     }
 
     public void checkLogin(javafx.event.ActionEvent actionEvent) throws IOException {
-        if (password.getText().equals("1234")) {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("third.fxml")));
-            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
-        } else {
-            wrong.setVisible(true);
+        DatabaseConnection connectNow = new DatabaseConnection();
+        Connection connectDB = connectNow.getConnection();
+
+        String query = "select count(1) from password WHERE pwd = '" + password.getText() + "'";
+        try {
+            Statement stmt = connectDB.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                if (rs.getInt(1) == 1) {
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("third.fxml")));
+                    stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                } else {
+                    wrong.setVisible(true);
+                }
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+//            if (password.getText().equals(pass)){
+//                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("third.fxml")));
+//                stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+//                scene = new Scene(root);
+//                stage.setScene(scene);
+//                stage.show();
+//            } else {
+//                wrong.setVisible(true);
+//            }
+
 
     public void goSample(ActionEvent actionEvent) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("sample.fxml")));
@@ -302,22 +338,23 @@ String stockImage;
                 if (result.get() == ButtonType.OK) {
                     addData(Partnumber, RefPartNumber, addon, quantity, PartFor, company, inventoryDate, Sourceofpurchase, landingValue, sellvalue, StockLocation, setOf, Prefix, Comment);
 
-//                Code128Bean code128 = new Code128Bean();
-//                String myString = PartNumber.getText() ;
-//                String image_name = PartNumber.getText() + ".png";
-//                code128.setHeight(15f);
-//                code128.setModuleWidth(0.3);
-//                code128.setQuietZone(10);
-//                code128.doQuietZone(true);
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-//                code128.generateBarcode(canvas, myString);
-//                canvas.finish();
-//                //write to png file
-//                FileOutputStream fos = new FileOutputStream("C:\\Users\\4manm\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
-//                fos.write(baos.toByteArray());
-//                fos.flush();
-//                fos.close();
+                Code128Bean code128 = new Code128Bean();
+                String myString = PartNumber.getText() ;
+                String image_name = PartNumber.getText() + ".png";
+                code128.setHeight(15f);
+                code128.setModuleWidth(0.3);
+                code128.setQuietZone(10);
+                code128.doQuietZone(true);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                code128.generateBarcode(canvas, myString);
+                canvas.finish();
+                //write to png file
+                FileOutputStream fos = new FileOutputStream("C:\\Users\\4manm\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
+                fos.write(baos.toByteArray());
+                fos.flush();
+                fos.close();
+
 
 
                     root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddItem.fxml")));
@@ -462,22 +499,22 @@ String stockImage;
                     if (result.get() == ButtonType.OK) {
                         addData(Partnumber, RefPartNumber, addon, quantity, PartFor, company, inventoryDate, Sourceofpurchase, landingValue, sellvalue, StockLocation, setOf, Prefix, Comment);
 
-//                Code128Bean code128 = new Code128Bean();
-//                String myString = PartNumber.getText() ;
-//                String image_name = PartNumber.getText() + ".png";
-//                code128.setHeight(15f);
-//                code128.setModuleWidth(0.3);
-//                code128.setQuietZone(10);
-//                code128.doQuietZone(true);
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-//                code128.generateBarcode(canvas, myString);
-//                canvas.finish();
-//                //write to png file
-//                FileOutputStream fos = new FileOutputStream("C:\\Users\\4manm\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
-//                fos.write(baos.toByteArray());
-//                fos.flush();
-//                fos.close();
+                Code128Bean code128 = new Code128Bean();
+                String myString = PartNumber.getText() ;
+                String image_name = PartNumber.getText() + ".png";
+                code128.setHeight(15f);
+                code128.setModuleWidth(0.3);
+                code128.setQuietZone(10);
+                code128.doQuietZone(true);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                code128.generateBarcode(canvas, myString);
+                canvas.finish();
+                //write to png file
+                FileOutputStream fos = new FileOutputStream("C:\\Users\\4manm\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
+                fos.write(baos.toByteArray());
+                fos.flush();
+                fos.close();
 
 
                         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddItem.fxml")));
@@ -617,22 +654,23 @@ String stockImage;
             if (result.get() == ButtonType.OK) {
                 addData(Partnumber,RefPartNumber,addon,quantity, PartFor, company,inventoryDate,Sourceofpurchase,landingValue,sellvalue, StockLocation, setOf, Prefix, comment);
 
-//                Code128Bean code128 = new Code128Bean();
-//                String myString = PartNumber.getText() ;
-//                String image_name = PartNumber.getText() + ".png";
-//                code128.setHeight(15f);
-//                code128.setModuleWidth(0.3);
-//                code128.setQuietZone(10);
-//                code128.doQuietZone(true);
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
-//                code128.generateBarcode(canvas, myString);
-//                canvas.finish();
-//                //write to png file
-//                FileOutputStream fos = new FileOutputStream("C:\\Users\\4manm\\IdeaProjects\\GG\\INVENTORY\\Barcode\\Barcode" + image_name);
-//                fos.write(baos.toByteArray());
-//                fos.flush();
-//                fos.close();
+                Code128Bean code128 = new Code128Bean();
+                String myString = PartNumber.getText() ;
+                String image_name = PartNumber.getText() + ".png";
+                code128.setHeight(15f);
+                code128.setModuleWidth(0.3);
+                code128.setQuietZone(10);
+                code128.doQuietZone(true);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                BitmapCanvasProvider canvas = new BitmapCanvasProvider(baos, "image/x-png", 300, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+                code128.generateBarcode(canvas, myString);
+                canvas.finish();
+                //write to png file
+                String directory = System.getProperty("user.dir");
+                FileOutputStream fos = new FileOutputStream(directory+"\\Barcode\\" + image_name);
+                fos.write(baos.toByteArray());
+                fos.flush();
+                fos.close();
 
 
                 root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("AddItem.fxml")));
@@ -676,6 +714,55 @@ String stockImage;
                 SellValue.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
                 SellValue.setText("*Enter digits from 0 to 9");
             }
+        }
+    }
+    public void confirm(ActionEvent actionEvent) throws IOException {
+        if(SECODE.getText()=="1995")
+        {
+            // update the password in database
+            String newpwd = newPassword.getText();
+            if(newPassword.getText()==confirmPassword.getText())
+            {
+                Stage stage = (Stage) myAnchorPane.getScene().getWindow();
+
+                Alert.AlertType type = Alert.AlertType.CONFIRMATION;
+                Alert alert = new Alert(type, "");
+
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.initOwner(stage);
+
+                alert.getDialogPane().setContentText("Do you want to confirm?");
+
+                alert.getDialogPane().setHeaderText("You want to set this as new password?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.get() == ButtonType.OK) {
+                    DatabaseConnection connectNow = new DatabaseConnection();
+                    Connection connectDB = connectNow.getConnection();
+                    String sql = "UPDATE 'password' SET pwd = '" + newPassword.getText()+ "'";
+
+                    try{
+                        Statement statement = connectDB.createStatement();
+                        statement.executeUpdate(sql);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login.fxml")));
+                    stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                }
+            }
+            else
+            {
+                mismatch.setVisible(true);
+                newPassword.clear();
+                confirmPassword.clear();
+            }
+        }
+        else
+        {
+            SECODE.setText("WRONG ANSWER!");
         }
     }
 
@@ -820,7 +907,8 @@ String stockImage;
                 "`stock_loc`,\n" +
                 "`setof`,\n" +
                 "`prefix`,\n" +
-                "`comment`) VALUES ('"+PartNumber+"','"+ReferencePartNumber+"','"+AddOn+"','"+Quantity+"','"+PartFor+"','"+Company+"','"+InventoryDate+"','"+SourceOfPurchase+"','"+LandingPurchaseValue+"','"+SellValue+"','"+StockLocation+"','"+setof+"','"+prefix+"','"+Comment+"'"+")";
+                "`comment`,\n" +
+                "`transaction_qt`) VALUES ('"+PartNumber+"','"+ReferencePartNumber+"','"+AddOn+"','"+Quantity+"','"+PartFor+"','"+Company+"','"+InventoryDate+"','"+SourceOfPurchase+"','"+LandingPurchaseValue+"','"+SellValue+"','"+StockLocation+"','"+setof+"','"+prefix+"','"+Comment+"','"+Quantity+"'"+")";
         try{
             Statement statement = connectDB.createStatement();
             statement.executeUpdate(connectQuery1);
@@ -869,4 +957,76 @@ String stockImage;
         stage.setScene(scene);
         stage.show();
     }
+//    public void downloadLog(ActionEvent actionEvent) throws SQLException {
+//        JFileChooser excelFileChooser = new JFileChooser("C:\\Users\\RAHUL\\Desktop");
+//        excelFileChooser.setDialogTitle("Save As");
+//        FileNameExtensionFilter fnef = new FileNameExtensionFilter("EXCEL FILES", "XLS", "XLSX", "XLSM");
+//        excelFileChooser.setFileFilter(fnef);
+//        int excelChooser = excelFileChooser.showSaveDialog(null);
+//
+//        if (excelChooser == JFileChooser.APPROVE_OPTION) {
+//
+//            DatabaseConnection connectNow = new DatabaseConnection();
+//            Connection connectDB = connectNow.getConnection();
+//
+//            try {
+//                String connectQuery = "SELECT * FROM `deletelog`.`deletemaster`";
+//
+//                Statement statement = connectDB.createStatement();
+//                ResultSet queryOutput = statement.executeQuery(connectQuery);
+//
+//                XSSFWorkbook excelJTableExporter = new XSSFWorkbook();
+//                XSSFSheet excelSheet = excelJTableExporter.createSheet("JTable Sheet");
+//
+//                XSSFRow header=excelSheet.createRow(0);
+//                header.createCell(0).setCellValue("PART NUMBER");
+//                header.createCell(1).setCellValue("REFERENCE PART NUMBER");
+//                header.createCell(2).setCellValue("ADD ON");
+//                header.createCell(3).setCellValue("QUANTITY USED");
+//                header.createCell(4).setCellValue("PART FOR");
+//                header.createCell(5).setCellValue("COMPANY");
+//                header.createCell(6).setCellValue("INVENTORY DATE");
+//                header.createCell(7).setCellValue("SOURCE OF PURCHASE");
+//                header.createCell(8).setCellValue("LANDING PURCHASE VALUE");
+//                header.createCell(9).setCellValue("SELLING VALUE");
+//                header.createCell(10).setCellValue("STOCK LOCATION");
+//                header.createCell(11).setCellValue("SET OF");
+//                header.createCell(12).setCellValue("PREFIX");
+//                header.createCell(13).setCellValue("COMMENT");
+//
+//
+//                int index = 1;
+//                while (queryOutput.next()) {
+//                    XSSFRow row = excelSheet.createRow(index);
+//                    row.createCell(0).setCellValue(queryOutput.getString("part_no"));
+//                    row.createCell(1).setCellValue(queryOutput.getString("ref_part_no"));
+//                    row.createCell(2).setCellValue(queryOutput.getString("add_on"));
+//                    row.createCell(3).setCellValue(queryOutput.getString("quantity"));
+//                    row.createCell(4).setCellValue(queryOutput.getString("part_for"));
+//                    row.createCell(5).setCellValue(queryOutput.getString("company"));
+//                    row.createCell(6).setCellValue(queryOutput.getString("inventory_date"));
+//                    row.createCell(7).setCellValue(queryOutput.getString("source_of_p"));
+//                    row.createCell(8).setCellValue(queryOutput.getString("landing_pv"));
+//                    row.createCell(9).setCellValue(queryOutput.getString("sell_v"));
+//                    row.createCell(10).setCellValue(queryOutput.getString("stock_loc"));
+//                    row.createCell(11).setCellValue(queryOutput.getString("setof"));
+//                    row.createCell(12).setCellValue(queryOutput.getString("prefix"));
+//                    row.createCell(13).setCellValue(queryOutput.getString("comment"));
+//
+//                    index++;
+//                }
+//                FileOutputStream fileOut = new FileOutputStream(excelFileChooser.getSelectedFile() + ".xlsx");
+//                BufferedOutputStream bFIleOut=new BufferedOutputStream(fileOut);
+//                excelJTableExporter.write(bFIleOut);
+//                bFIleOut.close();
+//                fileOut.close();
+//                statement.close();
+//                queryOutput.close();
+//
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }

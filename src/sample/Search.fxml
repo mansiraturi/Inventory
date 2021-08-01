@@ -25,12 +25,12 @@
             <columns>
                 <TableColumn fx:id="col_partNo" minWidth="0.0" prefWidth="153.33335876464844" text="PART NUMBER" />
                 <TableColumn fx:id="col_refPartNo" minWidth="0.0" prefWidth="153.33335876464844" text="REFERENCE PART NUMBER" />
-                <TableColumn fx:id="col_addOn" minWidth="0.0" prefWidth="153.33335876464844" text="ADD ON" />
                 <TableColumn fx:id="col_quantity" minWidth="0.0" prefWidth="153.33335876464844" text="QUANTITY" />
                 <TableColumn fx:id="col_partFor" minWidth="0.0" prefWidth="153.33335876464844" text="PART FOR" />
-                <TableColumn fx:id="col_company" minWidth="0.0" prefWidth="153.33335876464844" text="COMPANY" />
                 <TableColumn fx:id="col_inventoryDate" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="INVENTORY DATE" />
+                <TableColumn fx:id="col_company" minWidth="0.0" prefWidth="153.33335876464844" text="COMPANY" />
                 <TableColumn fx:id="col_sourceOfPurchase" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SOURCE OF PURCHASE" />
+                <TableColumn fx:id="col_addOn" minWidth="0.0" prefWidth="153.33335876464844" text="ADD ON" />
                 <TableColumn fx:id="col_stockLocation" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="STOCK LOCATION" />
                 <TableColumn fx:id="col_setOf" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SET OF" />
                 <TableColumn fx:id="col_prefix" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="PREFIX" />

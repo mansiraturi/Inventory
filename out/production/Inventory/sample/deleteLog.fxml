@@ -8,54 +8,61 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane minHeight="650.0" minWidth="1290.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C4FCF0;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DeleteLogController">
+<AnchorPane fx:id="myAnchorPane" minHeight="650.0" minWidth="1290.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #C4FCF0;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.DeleteLogController">
     <children>
-        <Button fx:id="back" layoutX="-9.0" layoutY="-3.0" mnemonicParsing="false" onAction="#goDelete" prefHeight="46.0" prefWidth="121.0" style="-fx-background-color: #C4FCF0;" text="&lt;- BACK" textAlignment="JUSTIFY" textFill="#005575">
+        <Button fx:id="back" layoutX="-9.0" layoutY="-3.0" mnemonicParsing="false" onAction="#goDelete" prefHeight="46.0" prefWidth="121.0" style="-fx-background-color: #C4FCF0;" text="&lt;- BACK" textAlignment="JUSTIFY" textFill="#005575" AnchorPane.leftAnchor="-9.0">
             <font>
                 <Font name="System Bold" size="21.0" />
             </font>
         </Button>
-        <TableView fx:id="tableView" layoutX="16.0" layoutY="84.0" prefHeight="504.0" prefWidth="1259.0" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+        <TableView fx:id="tableView" layoutX="16.0" layoutY="84.0" prefHeight="504.0" prefWidth="1259.0" AnchorPane.bottomAnchor="62.0" AnchorPane.leftAnchor="16.0" AnchorPane.rightAnchor="14.799999999999955" AnchorPane.topAnchor="84.0">
             <columns>
+                <TableColumn fx:id="col_date_time" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="TRANSACTION DATE_TIME" />
+                <TableColumn fx:id="col_employeeID" minWidth="0.0" prefWidth="153.33335876464844" text="EMPLOYEE ID" />
                 <TableColumn fx:id="col_partNo" minWidth="0.0" prefWidth="153.33335876464844" text="PART NUMBER" />
                 <TableColumn fx:id="col_refPartNo" minWidth="0.0" prefWidth="153.33335876464844" text="REFERENCE PART NUMBER" />
-                <TableColumn fx:id="col_addOn" minWidth="0.0" prefWidth="153.33335876464844" text="ADD ON" />
-                <TableColumn fx:id="col_quantity" minWidth="0.0" prefWidth="153.33335876464844" text="QUANTITY" />
+                <TableColumn fx:id="col_quantityUsed" minWidth="0.0" prefWidth="153.33335876464844" text="QUANTITY USED" />
+                <TableColumn fx:id="col_quantity" minWidth="0.0" prefWidth="153.33335876464844" text="REMAINING QUANTITY" />
                 <TableColumn fx:id="col_partFor" minWidth="0.0" prefWidth="153.33335876464844" text="PART FOR" />
-                <TableColumn fx:id="col_company" minWidth="0.0" prefWidth="153.33335876464844" text="COMPANY" />
                 <TableColumn fx:id="col_inventoryDate" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="INVENTORY DATE" />
-                <TableColumn fx:id="col_sourceOfPurchase" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SOURCE OF PURCHASE" />
                 <TableColumn fx:id="col_landingPurchaseValue" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="LANDING PURCHASE VALUE" />
                 <TableColumn fx:id="col_sellingValue" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SELLING VALUE" />
+                <TableColumn fx:id="col_company" minWidth="0.0" prefWidth="153.33335876464844" text="COMPANY" />
+                <TableColumn fx:id="col_sourceOfPurchase" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SOURCE OF PURCHASE" />
+                <TableColumn fx:id="col_addOn" minWidth="0.0" prefWidth="153.33335876464844" text="ADD ON" />
                 <TableColumn fx:id="col_stockLocation" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="STOCK LOCATION" />
-                <TableColumn fx:id="col_techDetails" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="TECH DETAILS" />
                 <TableColumn fx:id="col_setOf" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SET OF" />
                 <TableColumn fx:id="col_prefix" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="PREFIX" />
                 <TableColumn fx:id="col_comment" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="COMMENT" />
             </columns>
         </TableView>
-        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="545.0" layoutY="31.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#DeleteLogDetails" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="ENTER" textAlignment="CENTER" textFill="WHITE">
+        <Button alignment="CENTER" contentDisplay="CENTER" layoutX="545.0" layoutY="31.0" minHeight="25.0" minWidth="200.0" mnemonicParsing="false" onAction="#monthlyLog" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="ENTER" textAlignment="CENTER" textFill="WHITE" AnchorPane.rightAnchor="545.0" AnchorPane.topAnchor="31.0">
             <font>
                 <Font name="Arial Black" size="19.0" />
             </font>
         </Button>
-        <Label alignment="CENTER" layoutX="278.0" layoutY="14.0" prefHeight="27.0" prefWidth="115.0" text="START DATE">
+        <Label alignment="CENTER" layoutX="278.0" layoutY="14.0" prefHeight="27.0" prefWidth="115.0" text="START DATE" AnchorPane.rightAnchor="896.8" AnchorPane.topAnchor="14.0">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <DatePicker fx:id="startdatelog" layoutX="248.0" layoutY="44.0" />
-        <Label alignment="CENTER" layoutX="893.0" layoutY="14.0" prefHeight="27.0" prefWidth="115.0" text="END DATE">
+        <DatePicker fx:id="startdatelog" layoutX="248.0" layoutY="44.0" AnchorPane.rightAnchor="866.8" AnchorPane.topAnchor="44.0" />
+        <Label alignment="CENTER" layoutX="893.0" layoutY="14.0" prefHeight="27.0" prefWidth="115.0" text="END DATE" AnchorPane.rightAnchor="281.8" AnchorPane.topAnchor="14.0">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>
         </Label>
-        <DatePicker fx:id="enddatelog" layoutX="863.0" layoutY="45.0" />
+        <DatePicker fx:id="enddatelog" layoutX="863.0" layoutY="45.0" AnchorPane.rightAnchor="251.8" AnchorPane.topAnchor="45.0" />
 <!--        <ScrollBar fx:id="VerticalScrollbar" layoutX="75.0" layoutY="107.0" orientation="VERTICAL" prefHeight="490.0" prefWidth="0.0" />-->
-        <Button layoutX="546.0" layoutY="596.0" mnemonicParsing="false" onAction="#DeleteLogMaster" prefHeight="8.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="DELETE" textFill="#fffafa">
+        <Button layoutX="546.0" layoutY="596.0" mnemonicParsing="false" onAction="#DeleteLogMaster" prefHeight="8.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="DELETE" textFill="#fffafa" AnchorPane.bottomAnchor="13.200000000000003" AnchorPane.leftAnchor="545.0" AnchorPane.rightAnchor="545.0">
             <font>
                 <Font name="Arial Black" size="19.0" />
             </font>
         </Button>
+      <Button fx:id="HOME" layoutX="1168.0" layoutY="4.0" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0" prefWidth="121.0" style="-fx-background-color: #C4FCF0;" text="HOME" textAlignment="JUSTIFY" textFill="#005575" AnchorPane.rightAnchor="-10.0">
+         <font>
+            <Font name="System Bold" size="21.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>

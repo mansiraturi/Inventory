@@ -3,8 +3,6 @@ package sample;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-
-
 public class DatabaseConnection {
 
     public Connection databaseLink;
@@ -12,7 +10,7 @@ public class DatabaseConnection {
     public Connection getConnection() {
         String databaseName = "inventory_management";
         String databaseUser = "root";
-        String databasePassword = "4562";
+        String databasePassword = "mansa123";
 
         String url = "jdbc:mysql://localhost:3306/" + databaseName;
 

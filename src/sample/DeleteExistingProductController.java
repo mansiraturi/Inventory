@@ -332,40 +332,53 @@ public class DeleteExistingProductController implements Initializable {
         stage.show();
     }
     public void DeleteHistory(ActionEvent actionEvent) throws IOException {
-        Stage stage = (Stage) myAnchorPane.getScene().getWindow();
+        ObservableList<adminModelTable> selectedItems = tableView.getSelectionModel().getSelectedItems();
+        String E1 = "Please select a valid row and then proceed for delete.";
+        if (selectedItems.size() == 0) {
+            Stage stage = (Stage) myAnchorPane.getScene().getWindow();
+            Alert.AlertType type = Alert.AlertType.ERROR;
+            Alert alert = new Alert(type, "");
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.initOwner(stage);
+            alert.getDialogPane().setContentText("Do you want to continue?");
+            alert.getDialogPane().setHeaderText(E1);
+            Optional<ButtonType> result = alert.showAndWait();
+        } else {
+            Stage stage = (Stage) myAnchorPane.getScene().getWindow();
 
-        Alert.AlertType type = Alert.AlertType.CONFIRMATION;
-        Alert alert = new Alert(type, "");
+            Alert.AlertType type = Alert.AlertType.CONFIRMATION;
+            Alert alert = new Alert(type, "");
 
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.initOwner(stage);
+            alert.initModality(Modality.APPLICATION_MODAL);
+            alert.initOwner(stage);
 
-        alert.getDialogPane().setContentText("Do you want to confirm?");
+            alert.getDialogPane().setContentText("Do you want to confirm?");
 
-        alert.getDialogPane().setHeaderText("You have given the correct information about the products.");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK) {
-            ObservableList<adminModelTable> selectedItems = tableView.getSelectionModel().getSelectedItems();
-            String selectedProdID = selectedItems.get(0).getP_partNumber();
-            String connectQuery = String.format("DELETE FROM `inventory_management`.`inward_item` WHERE part_no = '%s'", selectedProdID);
-            try {
-                DatabaseConnectionDelete connectNow = new DatabaseConnectionDelete();
-                Connection connectDB = connectNow.getConnection();
+            alert.getDialogPane().setHeaderText("You have given the correct information about the products.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+//            ObservableList<adminModelTable> selectedItems = tableView.getSelectionModel().getSelectedItems();
+                String selectedProdID = selectedItems.get(0).getP_partNumber();
+                String connectQuery = String.format("DELETE FROM `inventory_management`.`inward_item` WHERE part_no = '%s'", selectedProdID);
+                try {
+                    DatabaseConnectionDelete connectNow = new DatabaseConnectionDelete();
+                    Connection connectDB = connectNow.getConnection();
 
-                Statement statement = connectDB.createStatement();
+                    Statement statement = connectDB.createStatement();
 //            statement.executeUpdate(connectQuery);
 //            statement.executeUpdate(connectQuery2);
-                statement.executeUpdate(connectQuery);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            observableList.removeAll(selectedItems);
+                    statement.executeUpdate(connectQuery);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                observableList.removeAll(selectedItems);
 
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("delete.fxml")));
-            stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+                root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("delete.fxml")));
+                stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            }
         }
     }
 }

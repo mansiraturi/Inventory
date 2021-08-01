@@ -9,11 +9,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,6 +22,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class monthlyLog  implements Initializable {
@@ -38,6 +38,8 @@ public class monthlyLog  implements Initializable {
     public TableColumn<deleteLogModelTable, String> col_partNo = new TableColumn<>();
     @FXML
     public TableColumn<deleteLogModelTable, String> col_refPartNo = new TableColumn<>();
+    @FXML
+    public TableColumn<deleteLogModelTable, String> col_employeeID = new TableColumn<>();
     @FXML
     public TableColumn<deleteLogModelTable, String> col_addOn = new TableColumn<>();
     @FXML
@@ -70,7 +72,8 @@ public class monthlyLog  implements Initializable {
 
     @FXML
     private TextField enteredProdCode;
-
+    @FXML
+    private AnchorPane myAnchorPane;
 
     ObservableList<deleteLogModelTable> observableList = FXCollections.observableArrayList();
 
@@ -81,7 +84,7 @@ public class monthlyLog  implements Initializable {
         DatabaseConnection connectNow = new DatabaseConnection();
         Connection connectDB = connectNow.getConnection();
 
-        String connectQuery = "SELECT * FROM `deletelog`.`outward_item`";
+        String connectQuery = "SELECT * FROM `deletelog`.`deletemaster`";
 
         try {
 
@@ -92,6 +95,7 @@ public class monthlyLog  implements Initializable {
                 observableList.add(new deleteLogModelTable(
                         queryOutput.getString("part_no"),
                         queryOutput.getString("ref_part_no"),
+                        queryOutput.getString("emp_id"),
                         queryOutput.getString("add_on"),
                         queryOutput.getInt("quantity"),
                         queryOutput.getInt("transaction_qt"),
@@ -110,6 +114,7 @@ public class monthlyLog  implements Initializable {
 
             col_partNo.setCellValueFactory(new PropertyValueFactory<>("P_partNumber"));
             col_refPartNo.setCellValueFactory(new PropertyValueFactory<>("P_refPartNumber"));
+            col_employeeID.setCellValueFactory(new PropertyValueFactory<>("P_emp_id"));
             col_quantityUsed.setCellValueFactory(new PropertyValueFactory<>("P_quantityUsed"));
             col_quantity.setCellValueFactory(new PropertyValueFactory<>("P_quantity"));
             col_partFor.setCellValueFactory(new PropertyValueFactory<>("P_partFor"));
@@ -162,42 +167,63 @@ public class monthlyLog  implements Initializable {
         }
     }
 
-        public void monthlyLog(ActionEvent actionEvent) {
-            LocalDate startDate=startdatelog.getValue();
-            LocalDate endDate=enddatelog.getValue();
-            String connectQuery = "SELECT * from `deletelog`.`deletemaster` where inventory_date between '" + startDate + "' and '" + endDate + "'";
-            tableView.getItems().clear();
+        public void displayMonthlyLog(ActionEvent actionEvent) {
+            if (startdatelog.getValue() == null || enddatelog.getValue() == null) {
 
-            try {
-                DatabaseConnection connectNow = new DatabaseConnection();
-                Connection connectDB = connectNow.getConnection();
+                Stage stage = (Stage) myAnchorPane.getScene().getWindow();
 
-                Statement statement = connectDB.createStatement();
-                ResultSet queryOutput = statement.executeQuery(connectQuery);
+                Alert.AlertType type = Alert.AlertType.ERROR;
+                Alert alert = new Alert(type, "");
 
-                while(queryOutput.next()) {
-                    observableList.add(new deleteLogModelTable(
-                            queryOutput.getString("part_no"),
-                            queryOutput.getString("ref_part_no"),
-                            queryOutput.getString("add_on"),
-                            queryOutput.getInt("quantity"),
-                            queryOutput.getInt("transaction_qt"),
-                            queryOutput.getString("part_for"),
-                            queryOutput.getString("company"),
-                            queryOutput.getString("inventory_date"),
-                            queryOutput.getString("transaction_dt"),
-                            queryOutput.getString("source_of_p"),
-                            queryOutput.getInt("landing_pv"),
-                            queryOutput.getInt("sell_v"),
-                            queryOutput.getString("stock_loc"),
-                            queryOutput.getString("setof"),
-                            queryOutput.getString("prefix"),
-                            queryOutput.getString("comment")));
+                alert.initModality(Modality.APPLICATION_MODAL);
+                alert.initOwner(stage);
+
+                alert.getDialogPane().setContentText("Do you want to continue?");
+
+                alert.getDialogPane().setHeaderText("Please provide valid start and end date.");
+                Optional<ButtonType> result = alert.showAndWait();
+            }
+            else {
+                LocalDate startDate = startdatelog.getValue();
+                LocalDate endDate = enddatelog.getValue();
+
+                String connectQuery1 = "SELECT * from `deletelog`.`deletemaster` where transaction_dt between '" + startDate + "' and '" + endDate + "'";
+                tableView.getItems().clear();
+
+                try {
+                    DatabaseConnection connectNow = new DatabaseConnection();
+                    Connection connectDB = connectNow.getConnection();
+
+                    Statement statement = connectDB.createStatement();
+                    ResultSet queryOutput = statement.executeQuery(connectQuery1);
+
+                    while (queryOutput.next()) {
+                        observableList.add(new deleteLogModelTable(
+                                queryOutput.getString("part_no"),
+                                queryOutput.getString("ref_part_no"),
+                                queryOutput.getString("emp_id"),
+                                queryOutput.getString("add_on"),
+                                queryOutput.getInt("quantity"),
+                                queryOutput.getInt("transaction_qt"),
+                                queryOutput.getString("part_for"),
+                                queryOutput.getString("company"),
+                                queryOutput.getString("inventory_date"),
+                                queryOutput.getString("transaction_dt"),
+                                queryOutput.getString("source_of_p"),
+                                queryOutput.getInt("landing_pv"),
+                                queryOutput.getInt("sell_v"),
+                                queryOutput.getString("stock_loc"),
+                                queryOutput.getString("setof"),
+                                queryOutput.getString("prefix"),
+                                queryOutput.getString("comment")));
+                    }
+
+                } catch (Exception e) {
+                    // TODO: handle exception
                 }
-            } catch (Exception e){
-                e.printStackTrace();
             }
         }
+
     public void goDelete(ActionEvent actionEvent) throws IOException {
         root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("delete.fxml")));
         stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();

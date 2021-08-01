@@ -10,6 +10,8 @@ public class deleteLogModelTable {
     @FXML
     private SimpleStringProperty P_refPartNumber;
     @FXML
+    private SimpleStringProperty P_emp_id;
+    @FXML
     private SimpleStringProperty P_addOn;
     @FXML
     private SimpleIntegerProperty P_quantity;
@@ -51,6 +53,12 @@ public class deleteLogModelTable {
         return P_refPartNumber;
     }
     public void setP_refPartNumber(String p_refPartNumber) { P_refPartNumber = new SimpleStringProperty(p_refPartNumber); }
+
+    public String getP_emp_id() { return P_emp_id.get(); }
+    public SimpleStringProperty p_emp_id() {
+        return P_emp_id;
+    }
+    public void setP_emp_id(String p_emp_id) { P_emp_id = new SimpleStringProperty(p_emp_id); }
 
     public String getP_addOn() { return P_addOn.get(); }
     public SimpleStringProperty p_addOn() {
@@ -139,10 +147,11 @@ public class deleteLogModelTable {
     public void setP_comment(String p_comment) { P_comment = new SimpleStringProperty(p_comment); }
 
 
-    public deleteLogModelTable(String p_partNumber, String p_refPartNumber, String p_addOn, int p_quantity, int p_quantityUsed, String p_partFor, String p_company, String p_invDate, String p_date_time,
+    public deleteLogModelTable(String p_partNumber, String p_refPartNumber,String p_emp_id, String p_addOn, int p_quantity, int p_quantityUsed, String p_partFor, String p_company, String p_invDate, String p_date_time,
                            String p_sourceOfPurchase, int p_landingPurchaseValue, int p_sellingValue, String p_stockLocation, String p_setOf, String p_prefix, String p_comment) {
         this.P_partNumber = new SimpleStringProperty(p_partNumber);
         this.P_refPartNumber = new SimpleStringProperty(p_refPartNumber);
+        this.P_emp_id = new SimpleStringProperty(p_emp_id);
         this.P_addOn = new SimpleStringProperty(p_addOn);
         this.P_quantity = new SimpleIntegerProperty(p_quantity);
         this.P_quantityUsed = new SimpleIntegerProperty(p_quantityUsed);

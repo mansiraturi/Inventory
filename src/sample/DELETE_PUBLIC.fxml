@@ -25,12 +25,12 @@
             <columns>
                 <TableColumn fx:id="col_partNo" minWidth="0.0" prefWidth="153.33335876464844" text="PART NUMBER" />
                 <TableColumn fx:id="col_refPartNo" minWidth="0.0" prefWidth="153.33335876464844" text="REFERENCE PART NUMBER" />
-                <TableColumn fx:id="col_addOn" minWidth="0.0" prefWidth="153.33335876464844" text="ADD ON" />
                 <TableColumn fx:id="col_quantity" minWidth="0.0" prefWidth="153.33335876464844" text="QUANTITY" />
                 <TableColumn fx:id="col_partFor" minWidth="0.0" prefWidth="153.33335876464844" text="PART FOR" />
-                <TableColumn fx:id="col_company" minWidth="0.0" prefWidth="153.33335876464844" text="COMPANY" />
                 <TableColumn fx:id="col_inventoryDate" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="INVENTORY DATE" />
+                <TableColumn fx:id="col_company" minWidth="0.0" prefWidth="153.33335876464844" text="COMPANY" />
                 <TableColumn fx:id="col_sourceOfPurchase" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SOURCE OF PURCHASE" />
+                <TableColumn fx:id="col_addOn" minWidth="0.0" prefWidth="153.33335876464844" text="ADD ON" />
                 <TableColumn fx:id="col_stockLocation" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="STOCK LOCATION" />
                 <TableColumn fx:id="col_setOf" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="SET OF" />
                 <TableColumn fx:id="col_prefix" minWidth="5.3333740234375" prefWidth="182.66665649414062" text="PREFIX" />
@@ -47,8 +47,14 @@
             <Font name="Arial Black" size="18.0" />
          </font>
       </Button>
-      <TextField fx:id="selectedQuantity" layoutX="920.0" layoutY="60.0" prefHeight="25.0" prefWidth="233.0" AnchorPane.rightAnchor="136.4" AnchorPane.topAnchor="60.0" />
-      <Label alignment="CENTER" layoutX="901.0" layoutY="18.0" prefHeight="35.0" prefWidth="301.0" text="COUNT" AnchorPane.rightAnchor="87.39999999999998" AnchorPane.topAnchor="18.0">
+      <TextField fx:id="selectedQuantity" layoutX="958.0" layoutY="23.0" prefHeight="25.0" prefWidth="233.0" promptText="Count" AnchorPane.rightAnchor="98.40000000000009" AnchorPane.topAnchor="23.0" />
+      <Label alignment="CENTER" layoutX="811.0" layoutY="18.0" prefHeight="35.0" prefWidth="134.0" text="COUNT" AnchorPane.rightAnchor="344.6" AnchorPane.topAnchor="18.0">
+         <font>
+            <Font name="System Bold" size="23.0" />
+         </font>
+      </Label>
+      <TextField fx:id="employee_id" layoutX="958.0" layoutY="60.0" prefHeight="25.0" prefWidth="233.0" promptText="Employee ID" />
+      <Label alignment="CENTER" layoutX="811.0" layoutY="55.0" prefHeight="35.0" prefWidth="134.0" text="EMP ID">
          <font>
             <Font name="System Bold" size="23.0" />
          </font>

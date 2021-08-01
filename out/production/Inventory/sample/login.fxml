@@ -27,8 +27,8 @@
         </Label>
         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
             <children>
-                <PasswordField fx:id="password" layoutX="431.0" layoutY="14.0" prefHeight="35.0" prefWidth="427.0" style="-fx-background-color: #F1F1E6;" />
-                <Button fx:id="submit" layoutX="554.0" layoutY="81.0" mnemonicParsing="false" onAction="#checkLogin" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="SUBMIT" textFill="WHITE">
+                <PasswordField fx:id="password" layoutX="431.0" layoutY="14.0" prefHeight="35.0" prefWidth="427.0" style="-fx-background-color: #F1F1E6;" AnchorPane.bottomAnchor="113.2" AnchorPane.leftAnchor="431.00000000000006" AnchorPane.rightAnchor="432.2000000000001" />
+                <Button fx:id="submit" layoutX="554.0" layoutY="81.0" mnemonicParsing="false" onAction="#checkLogin" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #005575;" text="SUBMIT" textFill="WHITE" AnchorPane.bottomAnchor="40.60000000000001" AnchorPane.leftAnchor="554.0" AnchorPane.rightAnchor="536.4000000000001">
                     <font>
                         <Font name="Arial Bold" size="22.0" />
                     </font>
@@ -42,12 +42,12 @@
         </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Button fx:id="back" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0" prefWidth="115.0" style="-fx-background-color: #C4FCF0;" text="&lt;- BACK" textAlignment="JUSTIFY" textFill="#005575">
+            <Button fx:id="back" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0" prefWidth="115.0" style="-fx-background-color: #C4FCF0;" text="&lt;- BACK" textAlignment="JUSTIFY" textFill="#005575" AnchorPane.leftAnchor="0.0">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
             </Button>
-            <Button fx:id="HOME" layoutX="1193.0" layoutY="-3.0" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0" prefWidth="100.0" style="-fx-background-color: #C4FCF0;" text="HOME" textAlignment="JUSTIFY" textFill="#005575">
+            <Button fx:id="HOME" layoutX="1193.0" layoutY="-3.0" mnemonicParsing="false" onAction="#goSample" prefHeight="46.0" prefWidth="100.0" style="-fx-background-color: #C4FCF0;" text="HOME" textAlignment="JUSTIFY" textFill="#005575" AnchorPane.rightAnchor="-10.0">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
